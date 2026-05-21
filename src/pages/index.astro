@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FilterGrid from '../components/FilterGrid';
 import ScrollReveal from '../components/ScrollReveal';
+import Heatmap from '../components/Heatmap';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog');
@@ -31,6 +32,17 @@ const noteItems = notes.map((note) => ({
 }));
 
 const allItems = [...blogItems, ...noteItems];
+
+const heatmapItems = [
+  ...posts.map((post) => ({
+    pubDate: post.data.pubDate,
+    content: post.body,
+  })),
+  ...notes.map((note) => ({
+    pubDate: note.data.pubDate,
+    content: note.data.content,
+  })),
+];
 ---
 
 <BaseLayout title="My Digital Garden">
@@ -60,8 +72,17 @@ const allItems = [...blogItems, ...noteItems];
       </ScrollReveal>
     </section>
 
-    <section class="container mx-auto px-4 pb-16">
+    <section class="container mx-auto px-4 py-8">
       <ScrollReveal client:load delay={300}>
+        <h2 class="text-2xl font-bold text-white text-center mb-6">
+          🌱 花园灌溉轨迹
+        </h2>
+        <Heatmap items={heatmapItems} client:load />
+      </ScrollReveal>
+    </section>
+
+    <section class="container mx-auto px-4 pb-16">
+      <ScrollReveal client:load delay={400}>
         <FilterGrid items={allItems} client:load />
       </ScrollReveal>
     </section>
