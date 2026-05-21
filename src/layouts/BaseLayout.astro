@@ -1,0 +1,77 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'Digital Garden' } = Astro.props;
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import SpotlightEffect from '../components/SpotlightEffect';
+import HoverPreview from '../components/HoverPreview';
+import SearchModal from '../components/SearchModal';
+import RandomStrollButton from '../components/RandomStrollButton';
+---
+
+<!doctype html>
+<html lang="zh-CN" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Digital Garden - A personal blog" />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body class="min-h-screen" style="background-color: #030712;">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/50">
+      <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="/" class="text-xl font-bold text-white hover:text-emerald-400 transition-colors">
+          🌱 Digital Garden
+        </a>
+        
+        <!-- 导航链接 -->
+        <div class="flex items-center gap-6">
+          <a href="/" class="text-gray-300 hover:text-white transition-colors">首页</a>
+          <a href="/blog" class="text-gray-300 hover:text-white transition-colors">博客</a>
+          <a href="/notes" class="text-gray-300 hover:text-amber-400 transition-colors">💡 闪念</a>
+          <a href="/garden" class="text-gray-300 hover:text-white transition-colors">花园</a>
+          <a href="/now" class="text-gray-300 hover:text-emerald-400 transition-colors">🎯 Now</a>
+          
+          <!-- 搜索按钮 -->
+          <button 
+            class="search-trigger flex items-center gap-2 px-3 py-2 bg-gray-800/50 hover:bg-gray-700/50 rounded-lg border border-gray-600/50 transition-colors text-gray-300 hover:text-white"
+          >
+            <svg 
+              class="w-4 h-4" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+              />
+            </svg>
+            <span class="hidden sm:inline text-sm">搜索</span>
+            <kbd class="hidden sm:inline px-1.5 py-0.5 bg-gray-700/50 rounded text-xs">⌘K</kbd>
+          </button>
+          
+          <!-- 随机漫步按钮 -->
+          <RandomStrollButton client:load />
+        </div>
+      </div>
+    </nav>
+    
+    <!-- 主内容区域 -->
+    <main class="pt-16">
+      <slot />
+    </main>
+    
+    <SpotlightEffect client:only="react" />
+    <HoverPreview client:only="react" />
+    <SearchModal client:load />
+  </body>
+</html>

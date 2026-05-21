@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const nowEntries = await getCollection('now');
+const nowEntry = nowEntries[0];
+const { Content } = nowEntry ? await nowEntry.render() : null;
+
+const formatDate = (date: Date) => {
+  return new Date(date).toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+---
+
+<BaseLayout title="Now">
+  <main class="min-h-screen bg-gray-950">
+    <article class="container mx-auto px-4 py-16 max-w-4xl">
+      <div class="mb-8">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors"
+        >
+          ← 返回首页
+        </a>
+      </div>
+
+      <header class="mb-12">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full mb-6">
+          <span class="text-emerald-400">✨</span>
+          <span class="text-emerald-400 text-sm">
+            此页面最后更新于 {nowEntry ? formatDate(nowEntry.data.lastUpdated) : '未知'}，查看我在做什么。
+          </span>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+          🎯 当下
+        </h1>
+      </header>
+
+      {nowEntry && Content && (
+        <article class="markdown-content">
+          <Content />
+        </article>
+      )}
+
+      {!nowEntry && (
+        <div class="text-gray-500">未找到 now 内容</div>
+      )}
+
+      {nowEntry && !Content && (
+        <div class="text-gray-500">内容渲染失败</div>
+      )}
+    </article>
+  </main>
+</BaseLayout>

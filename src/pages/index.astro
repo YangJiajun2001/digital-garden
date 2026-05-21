@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FilterGrid from '../components/FilterGrid';
+import ScrollReveal from '../components/ScrollReveal';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const notes = await getCollection('notes');
+
+const blogItems = posts.map((post) => ({
+  slug: post.slug,
+  type: 'blog' as const,
+  data: {
+    title: post.data.title,
+    description: post.data.description,
+    pubDate: post.data.pubDate,
+    status: post.data.status,
+    tags: post.data.tags || [],
+  },
+}));
+
+const noteItems = notes.map((note) => ({
+  slug: note.slug,
+  type: 'note' as const,
+  data: {
+    title: note.data.title,
+    content: note.data.content,
+    pubDate: note.data.pubDate,
+    tags: note.data.tags || [],
+  },
+}));
+
+const allItems = [...blogItems, ...noteItems];
+---
+
+<BaseLayout title="My Digital Garden">
+  <main class="min-h-screen bg-gray-950 relative z-10">
+    <section class="container mx-auto px-4 py-16 text-center">
+      <ScrollReveal client:load>
+        <div class="flex justify-center gap-4 mb-8">
+          <a
+            href="/garden"
+            class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+          >
+            🌳 知识图谱
+          </a>
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal client:load delay={100}>
+        <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">
+          My Digital Garden
+        </h1>
+      </ScrollReveal>
+
+      <ScrollReveal client:load delay={200}>
+        <p class="text-xl md:text-2xl text-gray-400">
+          播种想法，培育认知
+        </p>
+      </ScrollReveal>
+    </section>
+
+    <section class="container mx-auto px-4 pb-16">
+      <ScrollReveal client:load delay={300}>
+        <FilterGrid items={allItems} client:load />
+      </ScrollReveal>
+    </section>
+  </main>
+</BaseLayout>

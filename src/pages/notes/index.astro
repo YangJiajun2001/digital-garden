@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScrollReveal from '../../components/ScrollReveal';
+import { getCollection } from 'astro:content';
+
+const notes = await getCollection('notes');
+
+const sortedNotes = notes.sort(
+  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+const formatDate = (date: Date) => {
+  return new Date(date).toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
+---
+
+<BaseLayout title="闪念胶囊">
+  <main class="min-h-screen bg-gray-950 relative z-10">
+    <section class="container mx-auto px-4 py-16">
+      <ScrollReveal client:load>
+        <div class="text-center mb-12">
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            💡 闪念胶囊
+          </h1>
+          <p class="text-xl text-gray-400">
+            记录瞬间的灵感与思考
+          </p>
+        </div>
+      </ScrollReveal>
+
+      <div class="max-w-2xl mx-auto space-y-4">
+        {sortedNotes.map((note, index) => (
+          <ScrollReveal key={note.slug} client:load delay={index * 100}>
+            <article class="bg-gray-900/50 border border-gray-800 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 group">
+              <div class="flex items-start gap-4">
+                <span class="text-2xl flex-shrink-0">💡</span>
+                <div class="flex-1">
+                  {note.data.title && (
+                    <h2 class="text-lg font-semibold text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                      {note.data.title}
+                    </h2>
+                  )}
+                  <p class="text-gray-300 leading-relaxed">
+                    {note.data.content}
+                  </p>
+                  <div class="flex items-center justify-between mt-4">
+                    <span class="text-sm text-gray-500">
+                      {formatDate(note.data.pubDate)}
+                    </span>
+                    {note.data.tags && note.data.tags.length > 0 && (
+                      <div class="flex flex-wrap gap-2">
+                        {note.data.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            class="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </article>
+          </ScrollReveal>
+        ))}
+      </div>
+
+      {sortedNotes.length === 0 && (
+        <div class="text-center py-16">
+          <p class="text-gray-500 text-lg">暂无闪念，快去记录一个吧 ✍️</p>
+        </div>
+      )}
+    </section>
+  </main>
+</BaseLayout>
