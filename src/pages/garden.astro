@@ -1,20 +1,10 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import KnowledgeGraph from '../components/KnowledgeGraph';
 ---
 
-<!doctype html>
-<html lang="zh-CN" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>知识图谱 - My Digital Garden</title>
-  </head>
-  <body class="min-h-screen bg-gray-950">
-    <div class="fixed top-4 left-4 z-10 px-4 py-2 bg-black/50 backdrop-blur-md border border-white/10 rounded-lg text-white hover:bg-white/10 transition-colors">
-      <a href="/" class="text-white">← 返回首页</a>
-    </div>
-    <div class="w-full h-screen">
-      <KnowledgeGraph client:only="react" />
-    </div>
-  </body>
-</html>
+<BaseLayout title="知识图谱 - 思维花园">
+  <div class="w-full h-[calc(100vh-4rem)] pt-16">
+    <KnowledgeGraph client:only="react" />
+  </div>
+</BaseLayout>

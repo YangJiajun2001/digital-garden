@@ -61,9 +61,12 @@ const Legend = () => (
 const KnowledgeGraph = () => {
   const [graphData, setGraphData] = useState<GraphData>({ nodes: [], links: [] });
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const fgRef = useRef<any>(null);
 
   useEffect(() => {
+    setLoading(true);
     fetch('/api/graph-data')
       .then((res) => res.json())
       .then((data) => {
@@ -81,8 +84,13 @@ const KnowledgeGraph = () => {
         }));
 
         setGraphData({ nodes: nodesWithVal, links: data.links });
+        setLoading(false);
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error('Failed to load graph data:', err);
+        setError('加载失败');
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -131,10 +139,29 @@ const KnowledgeGraph = () => {
     return link.type === 'tag' ? 2 : 2.5;
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen text-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-400 mx-auto mb-4"></div>
+          <p>正在加载知识图谱...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-red-400">
+        <p>加载失败: {error}</p>
+      </div>
+    );
+  }
+
   if (graphData.nodes.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full text-white">
-        加载中...
+      <div className="flex items-center justify-center h-screen text-white">
+        <p>暂无数据</p>
       </div>
     );
   }
@@ -154,7 +181,7 @@ const KnowledgeGraph = () => {
         linkDirectionalParticleColor={() => 'rgba(139, 92, 246, 0.6)'}
         onNodeClick={handleNodeClick}
         onNodeHover={(node: GraphNode | null) => setHoveredNode(node?.id || null)}
-        backgroundColor="transparent"
+        backgroundColor="#0f172a"
         nodeCanvasObject={(node: GraphNode, ctx: CanvasRenderingContext2D, globalScale: number) => {
           const label = node.name;
           const fontSize = Math.max(12 / globalScale, 2);
@@ -184,6 +211,9 @@ const KnowledgeGraph = () => {
         nodeCanvasObjectMode={() => 'after'}
       />
       <Legend />
+      <div className="absolute bottom-4 left-4 text-white text-sm bg-black/50 px-3 py-2 rounded">
+        节点数: {graphData.nodes.length} | 链接数: {graphData.links.length}
+      </div>
     </div>
   );
 };

@@ -45,7 +45,7 @@ const heatmapItems = [
 ];
 ---
 
-<BaseLayout title="My Digital Garden">
+<BaseLayout title="思维花园 - 播种想法，培育认知">
   <main class="min-h-screen bg-gray-950 relative z-10">
     <section class="container mx-auto px-4 py-16 text-center">
       <ScrollReveal client:load>
@@ -60,8 +60,9 @@ const heatmapItems = [
       </ScrollReveal>
 
       <ScrollReveal client:load delay={100}>
-        <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">
-          My Digital Garden
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 font-sans tracking-wider flex items-center justify-center gap-3 group cursor-pointer">
+          <span class="text-emerald-400 group-hover:text-emerald-300 transition-colors">🌿</span>
+          <span class="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-emerald-300 group-hover:via-teal-300 group-hover:to-cyan-300 transition-all group-hover:drop-shadow-[0_0_20px_rgba(52,211,153,0.6)]">思维花园</span>
         </h1>
       </ScrollReveal>
 

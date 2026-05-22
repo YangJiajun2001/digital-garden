@@ -17,8 +17,11 @@ import RandomStrollButton from '../components/RandomStrollButton';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Digital Garden - A personal blog" />
+    <meta name="description" content="思维花园 - 播种想法，培育认知" />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
     <ViewTransitions />
   </head>
   <body class="min-h-screen" style="background-color: #030712;">
@@ -26,8 +29,9 @@ import RandomStrollButton from '../components/RandomStrollButton';
     <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/50">
       <div class="container mx-auto px-4 h-16 flex items-center justify-between">
         <!-- Logo -->
-        <a href="/" class="text-xl font-bold text-white hover:text-emerald-400 transition-colors">
-          🌱 Digital Garden
+        <a href="/" class="text-xl font-bold font-sans tracking-wider flex items-center gap-2 group">
+          <span class="text-emerald-400 group-hover:text-emerald-300 transition-colors">🌿</span>
+          <span class="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-emerald-300 group-hover:via-teal-300 group-hover:to-cyan-300 transition-all group-hover:drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]">思维花园</span>
         </a>
         
         <!-- 导航链接 -->
