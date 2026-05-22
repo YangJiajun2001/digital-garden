@@ -34,9 +34,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Setup Pagefind
-        run: npm run build:full
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
