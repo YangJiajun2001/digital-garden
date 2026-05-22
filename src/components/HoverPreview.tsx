@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { API_PATH } from '../utils/base';
 
 interface PostPreview {
   slug: string;
@@ -20,7 +21,7 @@ const HoverPreview = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    fetch('/api/posts')
+    fetch(`${API_PATH}/posts`)
       .then((res) => res.json())
       .then((data: PostPreview[]) => {
         const postsMap: Record<string, PostPreview> = {};
