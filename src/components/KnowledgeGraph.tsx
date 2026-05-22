@@ -96,7 +96,7 @@ const KnowledgeGraph = () => {
 
   useEffect(() => {
     if (fgRef.current && graphData.nodes.length > 0) {
-      fgRef.current.d3Force('charge').strength(-400);
+      fgRef.current.d3Force('charge').strength(-150);
     }
   }, [graphData.nodes.length]);
 
