@@ -5,4 +5,6 @@ import react from '@astrojs/react';
 export default defineConfig({
   integrations: [tailwind(), react()],
   viewTransitions: true,
+  site: 'https://YangJiajun2001.github.io',
+  base: '/digital-garden/',
 });
