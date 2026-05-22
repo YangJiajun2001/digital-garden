@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef, type ReactElement } from 'react';
+import { API_PATH, BLOG_PATH } from '../utils/base';
 
 interface SearchResult {
   url: string;
@@ -66,7 +67,7 @@ const SearchModal = () => {
       if (!searchQuery.trim()) {
         const allPosts: SearchResult[] = posts
           .map(post => ({
-            url: `/blog/${post.slug}`,
+            url: `${BLOG_PATH}/${post.slug}`,
             title: post.title,
             excerpt: highlightMatch(post.description, ''),
             date: post.pubDate
@@ -87,7 +88,7 @@ const SearchModal = () => {
           return titleMatch || descMatch;
         })
         .map(post => ({
-          url: `/blog/${post.slug}`,
+          url: `${BLOG_PATH}/${post.slug}`,
           title: post.title,
           excerpt: highlightMatch(post.description, searchQuery),
           date: post.pubDate
@@ -107,7 +108,7 @@ const SearchModal = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const response = await fetch('/api/posts');
+        const response = await fetch(`${API_PATH}/posts`);
         if (response.ok) {
           const data = await response.json();
           setPosts(data);

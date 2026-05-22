@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { BASE_PATH } from '../utils/base';
 
 const nowEntries = await getCollection('now');
 const nowEntry = nowEntries[0];
@@ -20,7 +21,7 @@ const formatDate = (date: Date) => {
     <article class="container mx-auto px-4 py-16 max-w-4xl">
       <div class="mb-8">
         <a
-          href="/"
+          href={BASE_PATH}
           class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors"
         >
           ← 返回首页

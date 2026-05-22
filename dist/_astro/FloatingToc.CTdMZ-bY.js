@@ -1,8 +1,0 @@
-import{j as r}from"./jsx-runtime.ClP7wGfN.js";import{r as s}from"./index.DK-fsZOb.js";function x({headings:n}){const[i,a]=s.useState(""),[l,d]=s.useState(!1),o=s.useRef(null);s.useEffect(()=>{if(typeof window>"u")return;const e=()=>{d(window.innerWidth>=1024)};return e(),window.addEventListener("resize",e),()=>window.removeEventListener("resize",e)},[]),s.useEffect(()=>{if(!l||n.length===0)return;const e=n.map(t=>document.getElementById(t.slug)).filter(t=>t!==null);if(e.length!==0)return o.current=new IntersectionObserver(t=>{t.forEach(c=>{c.isIntersecting&&a(c.target.id)})},{rootMargin:"-80px 0px -70% 0px",threshold:0}),e.forEach(t=>o.current?.observe(t)),()=>{o.current?.disconnect()}},[l,n]);const u=e=>{const t=document.getElementById(e);t&&t.scrollIntoView({behavior:"smooth"})};return!l||n.length===0?null:r.jsx("nav",{className:"fixed right-[calc((100vw-1280px)/2)] top-32 w-[200px] hidden lg:block","aria-label":"Table of contents",children:r.jsxs("div",{className:"bg-black/40 backdrop-blur-md border border-white/5 rounded-lg p-4",children:[r.jsx("h2",{className:"text-sm font-semibold text-gray-300 mb-3",children:"目录"}),r.jsx("ul",{className:"space-y-2",children:n.map(e=>r.jsx("li",{children:r.jsxs("button",{onClick:()=>u(e.slug),className:`
-                  w-full text-left text-sm py-1 px-2 rounded transition-all duration-200
-                  ${e.depth===3?"pl-5":""}
-                  ${i===e.slug?"text-white font-medium":"text-gray-500 hover:text-gray-300"}
-                `,children:[r.jsx("span",{className:`
-                    inline-block w-0.5 h-4 mr-2 align-middle transition-colors duration-200
-                    ${i===e.slug?"bg-emerald-400":"bg-transparent"}
-                  `}),e.text]})},e.slug))})]})})}export{x as default};

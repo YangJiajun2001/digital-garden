@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import TiltCard from './TiltCard';
+import { BLOG_PATH } from '../utils/base';
 
 export interface Note {
   slug: string;
@@ -175,7 +176,7 @@ const FilterGrid = ({ items }: Props) => {
               ) : (
                 <TiltCard className={isFirst ? 'lg:col-span-2' : ''}>
                   <a
-                    href={`/blog/${item.slug}`}
+                    href={`${BLOG_PATH}/${item.slug}`}
                     className="block h-full"
                   >
                     <div className="flex items-start justify-between mb-3">

@@ -4,6 +4,7 @@ import ScrollReveal from '../../components/ScrollReveal';
 import ReadingProgressBar from '../../components/ReadingProgressBar';
 import FloatingToc from '../../components/FloatingToc';
 import { getCollection } from 'astro:content';
+import { BASE_PATH, BLOG_PATH } from '../../utils/base';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -27,7 +28,7 @@ const { Content, headings } = await post.render();
     <article class="container mx-auto px-4 py-16 max-w-4xl">
       <ScrollReveal client:load>
         <div class="mb-8">
-          <a href="/" class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+          <a href={BASE_PATH} class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
             ← 返回首页
           </a>
         </div>
@@ -66,7 +67,7 @@ const { Content, headings } = await post.render();
             <h2 class="text-xl font-bold text-white mb-6">链接到这篇文章</h2>
             <div class="grid gap-4">
               {backlinks.map((linkPost) => (
-                <a href={`/blog/${linkPost.slug}`} class="block p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:bg-white/10 transition-colors">
+                <a href={`${BLOG_PATH}/${linkPost.slug}`} class="block p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:bg-white/10 transition-colors">
                   <h3 class="text-lg font-bold text-white mb-1">{linkPost.data.title}</h3>
                   <p class="text-gray-400 text-sm">{linkPost.data.description}</p>
                 </a>

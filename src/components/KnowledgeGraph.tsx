@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
+import { BLOG_PATH } from '../utils/base';
 
 interface GraphNode {
   id: string;
@@ -100,7 +101,7 @@ const KnowledgeGraph = () => {
   }, [graphData.nodes.length]);
 
   const handleNodeClick = (node: GraphNode) => {
-    window.location.href = `/blog/${node.id}`;
+    window.location.href = `${BLOG_PATH}/${node.id}`;
   };
 
   const nodeColor = (node: GraphNode) => {

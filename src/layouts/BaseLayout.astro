@@ -10,6 +10,7 @@ import SpotlightEffect from '../components/SpotlightEffect';
 import HoverPreview from '../components/HoverPreview';
 import SearchModal from '../components/SearchModal';
 import RandomStrollButton from '../components/RandomStrollButton';
+import { BASE_PATH } from '../utils/base';
 ---
 
 <!doctype html>
@@ -29,18 +30,18 @@ import RandomStrollButton from '../components/RandomStrollButton';
     <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/50">
       <div class="container mx-auto px-4 h-16 flex items-center justify-between">
         <!-- Logo -->
-        <a href="/" class="text-xl font-bold font-sans tracking-wider flex items-center gap-2 group">
+        <a href={BASE_PATH} class="text-xl font-bold font-sans tracking-wider flex items-center gap-2 group">
           <span class="text-emerald-400 group-hover:text-emerald-300 transition-colors">🌿</span>
           <span class="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-emerald-300 group-hover:via-teal-300 group-hover:to-cyan-300 transition-all group-hover:drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]">思维花园</span>
         </a>
         
         <!-- 导航链接 -->
         <div class="flex items-center gap-6">
-          <a href="/" class="text-gray-300 hover:text-white transition-colors">首页</a>
-          <a href="/blog" class="text-gray-300 hover:text-white transition-colors">博客</a>
-          <a href="/notes" class="text-gray-300 hover:text-amber-400 transition-colors">💡 闪念</a>
-          <a href="/garden" class="text-gray-300 hover:text-white transition-colors">花园</a>
-          <a href="/now" class="text-gray-300 hover:text-emerald-400 transition-colors">🎯 Now</a>
+          <a href={BASE_PATH} class="text-gray-300 hover:text-white transition-colors">首页</a>
+          <a href={`${BASE_PATH}/blog`} class="text-gray-300 hover:text-white transition-colors">博客</a>
+          <a href={`${BASE_PATH}/notes`} class="text-gray-300 hover:text-amber-400 transition-colors">💡 闪念</a>
+          <a href={`${BASE_PATH}/garden`} class="text-gray-300 hover:text-white transition-colors">花园</a>
+          <a href={`${BASE_PATH}/now`} class="text-gray-300 hover:text-emerald-400 transition-colors">🎯 Now</a>
           
           <!-- 搜索按钮 -->
           <button 

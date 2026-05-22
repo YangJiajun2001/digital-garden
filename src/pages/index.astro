@@ -4,6 +4,7 @@ import FilterGrid from '../components/FilterGrid';
 import ScrollReveal from '../components/ScrollReveal';
 import Heatmap from '../components/Heatmap';
 import { getCollection } from 'astro:content';
+import { GARDEN_PATH } from '../utils/base';
 
 const posts = await getCollection('blog');
 const notes = await getCollection('notes');
@@ -51,7 +52,7 @@ const heatmapItems = [
       <ScrollReveal client:load>
         <div class="flex justify-center gap-4 mb-8">
           <a
-            href="/garden"
+            href={GARDEN_PATH}
             class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
           >
             🌳 知识图谱

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BASE_PATH, API_PATH, BLOG_PATH } from '../utils/base';
 
 const STORAGE_KEY = 'random_stroll_visited_slugs';
 
@@ -11,7 +12,7 @@ export default function RandomStrollButton() {
     const visited = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     setVisitedCount(visited.length);
     
-    fetch('/api/slugs.json')
+    fetch(`${API_PATH}/slugs.json`)
       .then(res => res.json())
       .then(slugs => setTotalCount(slugs.length))
       .catch(() => setTotalCount(0));
@@ -23,7 +24,7 @@ export default function RandomStrollButton() {
     setIsLoading(true);
     
     try {
-      const response = await fetch('/api/slugs.json');
+      const response = await fetch(`${API_PATH}/slugs.json`);
       const allSlugs = await response.json();
       
       if (allSlugs.length === 0) {
@@ -39,10 +40,10 @@ export default function RandomStrollButton() {
         
         if ('startViewTransition' in document) {
           document.startViewTransition(() => {
-            window.location.href = '/';
+            window.location.href = BASE_PATH;
           });
         } else {
-          window.location.href = '/';
+          window.location.href = BASE_PATH;
         }
         return;
       }
@@ -54,10 +55,10 @@ export default function RandomStrollButton() {
       
       if ('startViewTransition' in document) {
         document.startViewTransition(() => {
-          window.location.href = `/blog/${randomSlug}`;
+          window.location.href = `${BLOG_PATH}/${randomSlug}`;
         });
       } else {
-        window.location.href = `/blog/${randomSlug}`;
+        window.location.href = `${BLOG_PATH}/${randomSlug}`;
       }
     } catch (error) {
       console.error('Failed to fetch slugs:', error);
