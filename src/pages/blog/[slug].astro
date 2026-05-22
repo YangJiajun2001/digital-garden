@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ScrollReveal from '../../components/ScrollReveal';
 import ReadingProgressBar from '../../components/ReadingProgressBar';
+import FloatingToc from '../../components/FloatingToc';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -16,11 +17,12 @@ export async function getStaticPaths() {
 }
 
 const { post, backlinks } = Astro.props;
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
 ---
 
 <BaseLayout title={post.data.title}>
   <ReadingProgressBar client:load />
+  <FloatingToc headings={headings} client:load />
   <main class="min-h-screen bg-gray-950">
     <article class="container mx-auto px-4 py-16 max-w-4xl">
       <ScrollReveal client:load>
