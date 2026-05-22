@@ -70,7 +70,7 @@ export default function FloatingToc({ headings }: FloatingTocProps) {
 
   return (
     <nav
-      className="fixed right-[calc((100vw-1280px)/2)] top-32 w-[200px] hidden lg:block"
+      className="fixed right-[calc((100vw-1280px)/2)] top-32 w-[200px] hidden lg:block max-h-[calc(100vh-160px)] overflow-y-auto"
       aria-label="Table of contents"
     >
       <div className="bg-black/40 backdrop-blur-md border border-white/5 rounded-lg p-4">
