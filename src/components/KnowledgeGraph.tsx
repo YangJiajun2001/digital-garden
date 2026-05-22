@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
-import { BLOG_PATH } from '../utils/base';
+import { BLOG_PATH, API_PATH } from '../utils/base';
 
 interface GraphNode {
   id: string;
@@ -68,7 +68,7 @@ const KnowledgeGraph = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('/api/graph-data')
+    fetch(`${API_PATH}/graph-data`)
       .then((res) => res.json())
       .then((data) => {
         const linkCount: Record<string, number> = {};

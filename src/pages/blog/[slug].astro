@@ -87,6 +87,7 @@ const { Content, headings } = await post.render();
       '设计系统构建': 'design-system',
       'AI辅助编程': 'ai-coding',
     };
+    const basePath = '/digital-garden';
     const markdownContent = document.querySelector('.markdown-content');
     if (!markdownContent) return;
     const regex = /\[\[([^\]]+)\]\]/g;
@@ -108,7 +109,7 @@ const { Content, headings } = await post.render();
         const title = match[1];
         const slug = titleToSlug[title] || title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
         const link = document.createElement('a');
-        link.href = `/blog/${slug}`;
+        link.href = `${basePath}/blog/${slug}`;
         link.className = 'wikilink';
         link.dataset.slug = slug;
         link.textContent = title;

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import TiltCard from './TiltCard';
+import { BLOG_PATH } from '../utils/base';
 
 interface Post {
   slug: string;
@@ -82,7 +83,7 @@ const BlogFilter = ({ posts }: Props) => {
               className={`${isFirst ? 'lg:col-span-2' : ''} ${isTall ? 'md:row-span-2' : ''}`}
             >
               <a
-                href={`/blog/${post.slug}`}
+                href={`${BLOG_PATH}/${post.slug}`}
                 className="block h-full group"
               >
                 <span className="text-xs text-gray-500 float-right">
