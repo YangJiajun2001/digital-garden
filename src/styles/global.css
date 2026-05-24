@@ -4,8 +4,8 @@
 
 /* 自定义字体变量 */
 :root {
-  --font-sans: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  --font-sans: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', 'Consolas', 'SF Mono', 'Monaco', monospace;
   
   /* 字体大小系统 */
   --text-xs: 0.75rem;      /* 12px */
