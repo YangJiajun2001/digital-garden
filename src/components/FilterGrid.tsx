@@ -185,7 +185,7 @@ const FilterGrid = ({ items }: Props) => {
                         {formatDate(item.data.pubDate)}
                       </span>
                     </div>
-                    <h3 className="card-title text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                    <h3 className="text-xl font-bold mb-2 group-hover:drop-shadow-[0_0_20px_rgba(52,211,153,0.5)] transition-all duration-300 bg-gradient-to-r from-white via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
                       {item.data.title}
                     </h3>
                     <p className="card-description text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">

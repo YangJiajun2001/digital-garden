@@ -90,7 +90,7 @@ const BlogFilter = ({ posts }: Props) => {
                   {formatDate(post.data.pubDate)}
                 </span>
                 <span className="text-xl">{getStatusEmoji(post.data.status)}</span>
-                <h2 className="text-xl md:text-2xl font-bold text-white mt-2 mb-3 group-hover:text-emerald-400 transition-colors">
+                <h2 className="text-xl md:text-2xl font-bold mt-2 mb-3 group-hover:drop-shadow-[0_0_20px_rgba(52,211,153,0.5)] transition-all duration-300 bg-gradient-to-r from-white via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
                   {post.data.title}
                 </h2>
                 <p className="text-gray-400 text-sm line-clamp-2 mb-4">

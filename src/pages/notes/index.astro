@@ -25,7 +25,7 @@ const formatDate = (date: Date) => {
     <section class="container mx-auto px-4 py-16">
       <ScrollReveal client:load>
         <div class="text-center mb-12">
-          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-amber-300 to-orange-300 bg-clip-text text-transparent">
             💡 闪念胶囊
           </h1>
           <p class="text-xl text-gray-400">
@@ -42,7 +42,7 @@ const formatDate = (date: Date) => {
                 <span class="text-2xl flex-shrink-0">💡</span>
                 <div class="flex-1">
                   {note.data.title && (
-                    <h2 class="text-lg font-semibold text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                    <h2 class="text-lg font-semibold mb-2 group-hover:drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] transition-all duration-300 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
                       {note.data.title}
                     </h2>
                   )}

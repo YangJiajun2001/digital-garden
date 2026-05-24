@@ -320,7 +320,10 @@ p {
 .markdown-content h1 {
   font-size: var(--text-4xl);
   font-weight: var(--font-weight-extrabold);
-  color: var(--color-text-primary);
+  background: linear-gradient(135deg, #f8fafc 0%, #34d399 50%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-top: 2.5rem;
   margin-bottom: 1.25rem;
   border-bottom: 1px solid var(--color-surface-lighter);
@@ -331,7 +334,10 @@ p {
 .markdown-content h2 {
   font-size: var(--text-3xl);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
+  background: linear-gradient(135deg, #f8fafc 0%, #a78bfa 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-top: 2rem;
   margin-bottom: 1rem;
   letter-spacing: -0.01em;
@@ -340,7 +346,10 @@ p {
 .markdown-content h3 {
   font-size: var(--text-2xl);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
+  background: linear-gradient(135deg, #e2e8f0 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-top: 1.75rem;
   margin-bottom: 0.875rem;
 }
@@ -348,7 +357,10 @@ p {
 .markdown-content h4 {
   font-size: var(--text-xl);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
+  background: linear-gradient(135deg, #94a3b8 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
 }
@@ -356,7 +368,7 @@ p {
 .markdown-content h5 {
   font-size: var(--text-lg);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
+  color: #c4b5fd;
   margin-top: 1.25rem;
   margin-bottom: 0.625rem;
 }
@@ -364,7 +376,7 @@ p {
 .markdown-content h6 {
   font-size: var(--text-base);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
+  color: #6ee7b7;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
