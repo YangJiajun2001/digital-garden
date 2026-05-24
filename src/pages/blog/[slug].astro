@@ -64,11 +64,11 @@ const { Content, headings } = await post.render();
       {backlinks.length > 0 && (
         <ScrollReveal client:load delay={300}>
           <section class="mt-16 pt-8 border-t border-gray-800">
-            <h2 class="text-xl font-bold text-white mb-6">链接到这篇文章</h2>
+            <h2 class="text-xl font-bold mb-6 bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300 bg-clip-text text-transparent">链接到这篇文章</h2>
             <div class="grid gap-4">
               {backlinks.map((linkPost) => (
-                <a href={`${BLOG_PATH}/${linkPost.slug}`} class="block p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:bg-white/10 transition-colors">
-                  <h3 class="text-lg font-bold text-white mb-1">{linkPost.data.title}</h3>
+                <a href={`${BLOG_PATH}/${linkPost.slug}`} class="block p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:bg-white/10 transition-colors group">
+                  <h3 class="text-lg font-bold mb-1 bg-gradient-to-r from-gray-300 to-gray-400 group-hover:from-emerald-300 group-hover:to-cyan-300 bg-clip-text text-transparent transition-all">{linkPost.data.title}</h3>
                   <p class="text-gray-400 text-sm">{linkPost.data.description}</p>
                 </a>
               ))}

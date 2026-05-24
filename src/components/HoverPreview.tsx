@@ -86,7 +86,7 @@ const HoverPreview = () => {
       }}
     >
       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-72 shadow-xl">
-        <h3 className="text-white font-bold text-lg mb-2">{preview.post.title}</h3>
+        <h3 className="font-bold text-lg mb-2 bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300 bg-clip-text text-transparent">{preview.post.title}</h3>
         <p className="text-gray-300 text-sm line-clamp-2">{preview.post.description}</p>
         <div className="flex gap-2 mt-3">
           {preview.post.tags.map((tag) => (

@@ -224,8 +224,11 @@ export default function Heatmap({ items }: HeatmapProps) {
 
         .legend-text {
           font-size: 12px;
-          color: #9ca3af;
           font-weight: 500;
+          background: linear-gradient(135deg, #9ca3af 0%, #4ade80 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
         .legend-colors { display: flex; gap: 4px; }
@@ -245,10 +248,13 @@ export default function Heatmap({ items }: HeatmapProps) {
           height: ${CELL_SIZE}px;
           line-height: ${CELL_SIZE}px;
           font-size: 11px;
-          color: #6b7280;
           font-weight: 500;
           text-align: right;
           min-width: 20px;
+          background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
         .heatmap-grid-wrapper {
@@ -270,9 +276,12 @@ export default function Heatmap({ items }: HeatmapProps) {
         .month-label {
           position: absolute;
           font-size: 11px;
-          color: #6b7280;
           font-weight: 500;
           white-space: nowrap;
+          background: linear-gradient(135deg, #6b7280 0%, #a78bfa 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
         .week-columns {
@@ -294,7 +303,7 @@ export default function Heatmap({ items }: HeatmapProps) {
 
         .day-cell:hover {
           transform: scale(1.3);
-          box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+          box-shadow: 0 0 12px rgba(74, 222, 128, 0.5);
         }
 
         .heatmap-tooltip {
@@ -326,9 +335,12 @@ export default function Heatmap({ items }: HeatmapProps) {
         }
 
         .heatmap-tooltip-count {
-          color: #4ade80;
           font-weight: 600;
           font-size: 13px;
+          background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
         .heatmap-tooltip-arrow {
