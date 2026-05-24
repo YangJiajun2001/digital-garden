@@ -146,7 +146,7 @@ const FilterGrid = ({ items }: Props) => {
                     <span className="text-xl mt-0.5">💡</span>
                     <div className="flex-1">
                       {item.data.title && (
-                        <h3 className="text-lg font-semibold text-white mb-2 tracking-tight">
+                        <h3 className="text-lg font-semibold mb-2 tracking-tight bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
                           {item.data.title}
                         </h3>
                       )}

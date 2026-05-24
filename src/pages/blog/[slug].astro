@@ -36,7 +36,7 @@ const { Content, headings } = await post.render();
 
       <ScrollReveal client:load delay={100}>
         <header class="mb-12">
-          <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">{post.data.title}</h1>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-emerald-300 to-cyan-300 bg-clip-text text-transparent">{post.data.title}</h1>
           <div class="flex flex-wrap items-center gap-4 mb-6">
             <span class="text-2xl">
               {post.data.status === 'seed' ? '🌱' : post.data.status === 'growing' ? '🌿' : '🌳'}
