@@ -22,23 +22,30 @@ import { BASE_PATH } from '../utils/base';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="思维花园 - 播种想法，培育认知" />
     <title>{title}</title>
+    <script>
+      // 在任何内容加载前立即设置主题，防止闪烁
+      (function() {
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+          if (savedTheme === 'dark') {
+            html.classList.add('dark');
+          } else {
+            html.classList.remove('dark');
+          }
+        } else {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (prefersDark) {
+            html.classList.add('dark');
+          }
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <ViewTransitions />
     <script>
-      // 立即设置主题，防止闪烁
-      (function() {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-          document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-        } else {
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (prefersDark) {
-            document.documentElement.classList.add('dark');
-          }
-        }
-      })();
-
       // 监听页面切换，确保主题状态保持一致
       document.addEventListener('astro:page-load', function() {
         const savedTheme = localStorage.getItem('theme');

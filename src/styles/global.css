@@ -67,6 +67,11 @@ body {
   color: var(--color-text-secondary);
 }
 
+/* 确保暗色模式下的基础样式正确应用 */
+.dark {
+  color-scheme: dark;
+}
+
 /* 移除网格背景，使用纯白背景 */
 
 /* 标题样式 */
