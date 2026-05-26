@@ -21,15 +21,15 @@ const formatDate = (date: Date) => {
 ---
 
 <BaseLayout title="闪念胶囊">
-  <main class="min-h-screen bg-gray-950 relative z-10">
+  <main class="min-h-screen bg-white dark:bg-gray-950 relative z-10">
     <section class="container mx-auto px-4 py-16">
       <ScrollReveal client:load>
         <div class="text-center mb-12">
           <h1 class="text-4xl md:text-5xl font-bold mb-4">
-            <span class="text-white mr-2">💡</span>
-            <span class="bg-gradient-to-r from-white via-amber-300 to-orange-300 bg-clip-text text-transparent">闪念胶囊</span>
+            <span class="text-gray-900 dark:text-white mr-2">💡</span>
+            <span class="bg-gradient-to-r from-gray-900 via-amber-500 to-orange-500 dark:from-white dark:via-amber-300 dark:to-orange-300 bg-clip-text text-transparent">闪念胶囊</span>
           </h1>
-          <p class="text-xl text-gray-400">
+          <p class="text-xl text-gray-600 dark:text-gray-400">
             记录瞬间的灵感与思考
           </p>
         </div>
@@ -38,16 +38,16 @@ const formatDate = (date: Date) => {
       <div class="max-w-2xl mx-auto space-y-4">
         {sortedNotes.map((note, index) => (
           <ScrollReveal key={note.slug} client:load delay={index * 100}>
-            <article class="bg-gray-900/50 border border-gray-800 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 group">
+            <article class="bg-gray-50/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 group">
               <div class="flex items-start gap-4">
                 <span class="text-2xl flex-shrink-0">💡</span>
                 <div class="flex-1">
                   {note.data.title && (
-                    <h2 class="text-lg font-semibold mb-2 group-hover:drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] transition-all duration-300 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
+                    <h2 class="text-lg font-semibold mb-2 transition-all duration-300 bg-gradient-to-r from-gray-900 to-amber-600 dark:from-white dark:to-amber-200 bg-clip-text text-transparent">
                       {note.data.title}
                     </h2>
                   )}
-                  <p class="text-gray-300 leading-relaxed">
+                  <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                     {note.data.content}
                   </p>
                   <div class="flex items-center justify-between mt-4">
@@ -59,7 +59,7 @@ const formatDate = (date: Date) => {
                         {note.data.tags.map((tag) => (
                           <span
                             key={tag}
-                            class="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full"
+                            class="px-2 py-1 bg-purple-500/20 text-purple-600 dark:text-purple-300 text-xs rounded-full"
                           >
                             {tag}
                           </span>

@@ -10,11 +10,13 @@ import SpotlightEffect from '../components/SpotlightEffect';
 import HoverPreview from '../components/HoverPreview';
 import SearchModal from '../components/SearchModal';
 import RandomStrollButton from '../components/RandomStrollButton';
+import ThemeToggle from '../components/ThemeToggle';
+import NavLink from '../components/NavLink';
 import { BASE_PATH } from '../utils/base';
 ---
 
 <!doctype html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,10 +25,32 @@ import { BASE_PATH } from '../utils/base';
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <ViewTransitions />
+    <script>
+      // 立即设置主题，防止闪烁
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+        } else {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (prefersDark) {
+            document.documentElement.classList.add('dark');
+          }
+        }
+      })();
+
+      // 监听页面切换，确保主题状态保持一致
+      document.addEventListener('astro:page-load', function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+        }
+      });
+    </script>
   </head>
-  <body class="min-h-screen" style="background-color: #030712;">
+  <body class="min-h-screen">
     <!-- 导航栏 -->
-    <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/50">
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-200/50 dark:bg-gray-900/80 dark:border-gray-700/50">
       <div class="container mx-auto px-4 h-16 flex items-center justify-between">
         <!-- Logo -->
         <a href={BASE_PATH} class="text-xl font-bold font-sans tracking-wider flex items-center gap-2 group">
@@ -35,41 +59,42 @@ import { BASE_PATH } from '../utils/base';
         </a>
         
         <!-- 导航链接 -->
-        <div class="flex items-center gap-6">
-          <a href={BASE_PATH} class="flex items-center gap-2 transition-all duration-300 group">
-            <svg class="w-6 h-6 text-gray-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span class="bg-gradient-to-r from-gray-300 to-gray-500 group-hover:from-emerald-300 group-hover:to-cyan-300 bg-clip-text text-transparent transition-all">首页</span>
-          </a>
-          <a href={`${BASE_PATH}/blog`} class="flex items-center gap-2 transition-all duration-300 group">
-            <svg class="w-6 h-6 text-gray-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-            <span class="bg-gradient-to-r from-gray-300 to-gray-500 group-hover:from-emerald-300 group-hover:to-cyan-300 bg-clip-text text-transparent transition-all">文章</span>
-          </a>
-          <a href={`${BASE_PATH}/notes`} class="flex items-center gap-2 transition-all duration-300 group">
-            <svg class="w-6 h-6 text-gray-400 group-hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-            </svg>
-            <span class="bg-gradient-to-r from-gray-300 to-gray-500 group-hover:from-amber-300 group-hover:to-orange-300 bg-clip-text text-transparent transition-all">闪念</span>
-          </a>
-          <a href={`${BASE_PATH}/garden`} class="flex items-center gap-2 transition-all duration-300 group">
-            <svg class="w-6 h-6 text-gray-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-            <span class="bg-gradient-to-r from-gray-300 to-gray-500 group-hover:from-emerald-300 group-hover:to-teal-300 bg-clip-text text-transparent transition-all">花园</span>
-          </a>
-          <a href={`${BASE_PATH}/now`} class="flex items-center gap-2 transition-all duration-300 group">
-            <svg class="w-6 h-6 text-gray-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span class="bg-gradient-to-r from-gray-300 to-gray-500 group-hover:from-emerald-300 group-hover:to-cyan-300 bg-clip-text text-transparent transition-all">Now</span>
-          </a>
+        <div class="flex items-center gap-2">
+          <NavLink 
+            href={BASE_PATH} 
+            label="首页" 
+            iconType="home"
+            exact={true}
+            client:load 
+          />
+          <NavLink 
+            href={`${BASE_PATH}/blog`} 
+            label="文章"
+            iconType="blog"
+            client:load 
+          />
+          <NavLink 
+            href={`${BASE_PATH}/notes`} 
+            label="闪念"
+            iconType="notes"
+            client:load 
+          />
+          <NavLink 
+            href={`${BASE_PATH}/garden`} 
+            label="花园"
+            iconType="garden"
+            client:load 
+          />
+          <NavLink 
+            href={`${BASE_PATH}/now`} 
+            label="Now"
+            iconType="now"
+            client:load 
+          />
           
           <!-- 搜索按钮 -->
           <button 
-            class="search-trigger flex items-center gap-2 px-3 py-2 bg-gray-800/50 hover:bg-gray-700/50 rounded-lg border border-gray-600/50 transition-colors text-gray-300 hover:text-white"
+            class="search-trigger flex items-center gap-2 px-3 py-2 bg-gray-200/50 hover:bg-gray-300/50 rounded-lg border border-gray-300/50 transition-colors text-gray-700 hover:text-gray-900 dark:bg-gray-800/50 dark:hover:bg-gray-700/50 dark:border-gray-600/50 dark:text-gray-300 dark:hover:text-white"
           >
             <svg 
               class="w-4 h-4" 
@@ -85,8 +110,11 @@ import { BASE_PATH } from '../utils/base';
               />
             </svg>
             <span class="hidden sm:inline text-sm">搜索</span>
-            <kbd class="hidden sm:inline px-1.5 py-0.5 bg-gray-700/50 rounded text-xs">⌘K</kbd>
+            <kbd class="hidden sm:inline px-1.5 py-0.5 bg-gray-300/50 dark:bg-gray-700/50 rounded text-xs">⌘K</kbd>
           </button>
+          
+          <!-- 主题切换按钮 -->
+          <ThemeToggle client:load />
           
           <!-- 随机漫步按钮 -->
           <RandomStrollButton client:load />

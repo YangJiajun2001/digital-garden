@@ -49,7 +49,7 @@ const SearchModal = () => {
       
       const matchText = text.substring(currentIndex, currentIndex + query.length);
       result.push(
-        <mark key={`highlight-${currentIndex}`} className="bg-yellow-500/40 text-yellow-100 px-0.5 rounded">
+        <mark key={`highlight-${currentIndex}`} className="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 px-0.5 rounded">
           {matchText}
         </mark>
       );
@@ -242,9 +242,9 @@ const SearchModal = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]">
       <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm"
         onClick={() => {
           setIsOpen(false);
           setQuery('');
@@ -253,122 +253,166 @@ const SearchModal = () => {
         }}
       />
       
-      <div className="search-modal-container absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-2xl mx-4 bg-gray-900/95 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl overflow-hidden animate-fadeIn">
-        <div className="flex items-center px-4 py-4 border-b border-gray-700/50">
-          <svg 
-            className="w-5 h-5 text-gray-400 mr-3" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
-            />
-          </svg>
+      <div className="search-modal-container relative w-full max-w-xl mx-4 bg-white dark:bg-gray-900 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl overflow-hidden animate-slideUp">
+        <div className="flex items-center gap-3 px-5 py-4">
+          <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl">
+            <svg 
+              className="w-5 h-5 text-emerald-500 dark:text-emerald-400" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+              />
+            </svg>
+          </div>
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="搜索文章..."
-            className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none text-lg"
+            className="flex-1 bg-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none text-lg font-medium"
           />
-          <div className="flex items-center gap-2 text-gray-500 text-sm">
-            <kbd className="px-2 py-1 bg-gray-800 rounded text-xs">Esc</kbd>
-            <span>关闭</span>
+          <div className="flex items-center gap-1 text-gray-400 dark:text-gray-500 text-sm">
+            <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-xs font-medium">Esc</kbd>
           </div>
         </div>
 
-        <div className="max-h-[50vh] overflow-y-auto">
+        <div className="max-h-[45vh] overflow-y-auto px-5 pb-2">
           {isLoading && (
-            <div className="px-4 py-8 text-center text-gray-400">
-              搜索中...
+            <div className="py-12 text-center">
+              <div className="w-8 h-8 border-2 border-emerald-200 dark:border-emerald-800 border-t-emerald-500 dark:border-t-emerald-400 rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-400 dark:text-gray-500">搜索中...</p>
             </div>
           )}
           
           {!isLoading && query && results.length === 0 && (
-            <div className="px-4 py-8 text-center text-gray-400">
-              未找到相关结果
+            <div className="py-12 text-center">
+              <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p className="text-gray-500 dark:text-gray-400 font-medium">未找到相关结果</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">尝试其他关键词试试</p>
             </div>
           )}
           
           {!isLoading && results.length > 0 && (
-            <ul className="py-2">
+            <div className="space-y-2">
               {results.map((result, index) => (
-                <li 
+                <button
                   key={`${result.url}-${index}`}
-                  className={`px-4 py-3 cursor-pointer transition-colors ${
+                  className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 group ${
                     index === selectedIndex 
-                      ? 'bg-gray-800/80' 
-                      : 'hover:bg-gray-800/50'
+                      ? 'bg-emerald-50 dark:bg-emerald-900/30 shadow-md shadow-emerald-200/50 dark:shadow-emerald-900/20' 
+                      : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
                   }`}
                   onClick={() => handleResultClick(result.url)}
                   onMouseEnter={() => setSelectedIndex(index)}
                 >
                   <div className="flex items-start gap-3">
-                    <svg 
-                      className={`w-4 h-4 mt-1 flex-shrink-0 ${
-                        index === selectedIndex 
-                          ? 'text-emerald-400' 
-                          : 'text-gray-500'
-                      }`} 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" 
-                      />
-                    </svg>
+                    <div className={`mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                      index === selectedIndex 
+                        ? 'bg-emerald-500 dark:bg-emerald-500 text-white' 
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 group-hover:text-emerald-500 dark:group-hover:text-emerald-400'
+                    }`}>
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className={`font-medium mb-1 ${
-                        index === selectedIndex ? 'text-emerald-400' : 'text-white'
+                      <h3 className={`font-semibold mb-1 transition-colors ${
+                        index === selectedIndex ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-900 dark:text-white'
                       }`}>
                         {highlightMatch(result.title, query)}
                       </h3>
-                      <p className="text-gray-400 text-sm mb-1">
+                      <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2">
                         {result.excerpt}
                       </p>
-                      <span className="text-xs text-gray-500">
+                      <span className="inline-block mt-2 text-xs text-gray-400 dark:text-gray-500">
                         {result.date}
                       </span>
                     </div>
                   </div>
-                </li>
+                </button>
               ))}
-            </ul>
+            </div>
           )}
           
-          {!query && (
-            <div className="px-4 py-8 text-center text-gray-500">
-              <p className="mb-2">输入关键词开始搜索</p>
-              <p className="text-sm">支持 Cmd/Ctrl + K 快捷键唤起</p>
-              {posts.length === 0 && (
-                <p className="text-xs mt-2 text-yellow-500/70">正在加载文章索引...</p>
-              )}
+          {!query && posts.length > 0 && (
+            <div className="py-8">
+              <p className="text-sm text-gray-400 dark:text-gray-500 mb-4 px-4">最近文章</p>
+              <div className="space-y-2">
+                {posts.slice(0, 5).map((post, index) => (
+                  <button
+                    key={`recent-${post.slug}`}
+                    className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 ${
+                      index === selectedIndex 
+                        ? 'bg-emerald-50 dark:bg-emerald-900/30' 
+                        : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                    }`}
+                    onClick={() => handleResultClick(`${BLOG_PATH}/${post.slug}`)}
+                    onMouseEnter={() => setSelectedIndex(index)}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className={`mt-0.5 w-5 h-5 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                        index === selectedIndex 
+                          ? 'bg-emerald-500 text-white' 
+                          : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500'
+                      }`}>
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className={`font-semibold mb-1 ${
+                          index === selectedIndex ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-900 dark:text-white'
+                        }`}>
+                          {post.title}
+                        </h3>
+                        <span className="text-xs text-gray-400 dark:text-gray-500">
+                          {post.pubDate}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {!query && posts.length === 0 && (
+            <div className="py-12 text-center">
+              <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </div>
+              <p className="text-gray-500 dark:text-gray-400 font-medium">正在加载文章...</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">请稍候</p>
             </div>
           )}
         </div>
 
-        <div className="px-4 py-3 border-t border-gray-700/50 bg-gray-800/30">
-          <div className="flex items-center justify-between text-xs text-gray-500">
+        <div className="px-5 py-3 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
+          <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1">
-                <kbd className="px-1.5 py-0.5 bg-gray-700 rounded">↑↓</kbd>
+                <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-800 rounded text-xs font-medium">↑↓</kbd>
                 导航
               </span>
               <span className="flex items-center gap-1">
-                <kbd className="px-1.5 py-0.5 bg-gray-700 rounded">Enter</kbd>
+                <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-800 rounded text-xs font-medium">Enter</kbd>
                 选择
               </span>
             </div>
-            <span>共 {results.length} 篇文章{query && results.length !== posts.length ? ` (筛选自 ${posts.length} 篇)` : ''}</span>
+            <span>共 {results.length} 篇{query && results.length !== posts.length ? ` / ${posts.length}` : ''}</span>
           </div>
         </div>
       </div>

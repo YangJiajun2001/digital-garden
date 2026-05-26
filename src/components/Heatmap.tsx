@@ -47,11 +47,11 @@ export default function Heatmap({ items }: HeatmapProps) {
   }, [items]);
 
   const getColorClass = (count: number): string => {
-    if (count === 0) return 'bg-gray-800';
-    if (count < 100) return 'bg-green-800';
-    if (count < 500) return 'bg-green-600';
-    if (count < 1000) return 'bg-green-500';
-    return 'bg-green-400';
+    if (count === 0) return 'bg-gray-200 dark:bg-gray-800';
+    if (count < 100) return 'bg-green-200 dark:bg-green-800';
+    if (count < 500) return 'bg-green-400 dark:bg-green-600';
+    if (count < 1000) return 'bg-green-500 dark:bg-green-500';
+    return 'bg-green-600 dark:bg-green-400';
   };
 
   const months = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
@@ -114,6 +114,20 @@ export default function Heatmap({ items }: HeatmapProps) {
     const cells = containerRef.current.querySelectorAll('.day-cell');
     let tooltip: HTMLDivElement | null = null;
 
+    const getTooltipStyles = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      return {
+        background: isDark ? 'rgba(17, 24, 39, 0.98)' : 'rgba(255, 255, 255, 0.98)',
+        color: isDark ? '#f9fafb' : '#1f2937',
+        boxShadow: isDark ? '0 4px 20px rgba(0, 0, 0, 0.5)' : '0 4px 20px rgba(0, 0, 0, 0.15)',
+        border: isDark ? '1px solid rgba(75, 85, 99, 0.5)' : '1px solid rgba(209, 213, 219, 0.8)',
+        arrowBg: isDark ? 'rgba(17, 24, 39, 0.98)' : 'rgba(255, 255, 255, 0.98)',
+        arrowBorder: isDark ? 'rgba(75, 85, 99, 0.5)' : 'rgba(209, 213, 219, 0.8)',
+        dateColor: isDark ? '#9ca3af' : '#6b7280',
+        countGradient: isDark ? 'linear-gradient(135deg, #4ade80 0%, #22d3ee 100%)' : 'linear-gradient(135deg, #059669 0%, #06b6d4 100%)'
+      };
+    };
+
     const createTooltip = () => {
       if (tooltip) return tooltip;
       
@@ -153,8 +167,31 @@ export default function Heatmap({ items }: HeatmapProps) {
       if (!date || !count) return;
 
       const tip = createTooltip();
-      tip.querySelector('.heatmap-tooltip-date')!.textContent = date;
-      tip.querySelector('.heatmap-tooltip-count')!.textContent = `灌溉了 ${count} 字`;
+      const styles = getTooltipStyles();
+      
+      // 应用动态样式
+      tip.style.background = styles.background;
+      tip.style.color = styles.color;
+      tip.style.boxShadow = styles.boxShadow;
+      tip.style.border = styles.border;
+      
+      const dateEl = tip.querySelector('.heatmap-tooltip-date') as HTMLElement;
+      const countEl = tip.querySelector('.heatmap-tooltip-count') as HTMLElement;
+      const arrowEl = tip.querySelector('.heatmap-tooltip-arrow') as HTMLElement;
+      
+      dateEl.textContent = date;
+      dateEl.style.color = styles.dateColor;
+      
+      countEl.textContent = `灌溉了 ${count} 字`;
+      countEl.style.background = styles.countGradient;
+      countEl.style.webkitBackgroundClip = 'text';
+      countEl.style.webkitTextFillColor = 'transparent';
+      countEl.style.backgroundClip = 'text';
+      
+      arrowEl.style.background = styles.arrowBg;
+      arrowEl.style.borderLeft = `1px solid ${styles.arrowBorder}`;
+      arrowEl.style.borderTop = `1px solid ${styles.arrowBorder}`;
+      
       tip.classList.add('visible');
       
       updateTooltipPosition(e.clientX, e.clientY);
@@ -310,13 +347,9 @@ export default function Heatmap({ items }: HeatmapProps) {
           position: fixed;
           z-index: 9999;
           padding: 8px 12px;
-          background: rgba(17, 24, 39, 0.98);
           backdrop-filter: blur(12px);
           border-radius: 8px;
           font-size: 12px;
-          color: #f9fafb;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-          border: 1px solid rgba(75, 85, 99, 0.5);
           pointer-events: none;
           white-space: nowrap;
           width: ${TOOLTIP_WIDTH}px;
@@ -329,7 +362,6 @@ export default function Heatmap({ items }: HeatmapProps) {
         }
 
         .heatmap-tooltip-date {
-          color: #9ca3af;
           margin-bottom: 4px;
           font-size: 11px;
         }
@@ -337,10 +369,6 @@ export default function Heatmap({ items }: HeatmapProps) {
         .heatmap-tooltip-count {
           font-weight: 600;
           font-size: 13px;
-          background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
         }
 
         .heatmap-tooltip-arrow {
@@ -350,9 +378,6 @@ export default function Heatmap({ items }: HeatmapProps) {
           transform: translateY(-50%) rotate(45deg);
           width: 8px;
           height: 8px;
-          background: rgba(17, 24, 39, 0.98);
-          border-left: 1px solid rgba(75, 85, 99, 0.5);
-          border-top: 1px solid rgba(75, 85, 99, 0.5);
         }
       `}</style>
 
@@ -361,11 +386,11 @@ export default function Heatmap({ items }: HeatmapProps) {
           <div className="heatmap-legend">
             <span className="legend-text">少</span>
             <div className="legend-colors">
-              <div className="legend-cell bg-gray-800"></div>
-              <div className="legend-cell bg-green-800"></div>
-              <div className="legend-cell bg-green-600"></div>
+              <div className="legend-cell bg-gray-200 dark:bg-gray-800"></div>
+              <div className="legend-cell bg-green-200 dark:bg-green-800"></div>
+              <div className="legend-cell bg-green-400 dark:bg-green-600"></div>
               <div className="legend-cell bg-green-500"></div>
-              <div className="legend-cell bg-green-400"></div>
+              <div className="legend-cell bg-green-600 dark:bg-green-400"></div>
             </div>
             <span className="legend-text">多</span>
           </div>

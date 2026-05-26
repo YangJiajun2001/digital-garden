@@ -54,25 +54,20 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #030712;
-  color: var(--color-text-secondary);
+  background-color: #ffffff;
+  color: #111827;
   line-height: var(--leading-relaxed);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(55, 65, 81, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(55, 65, 81, 0.03) 1px, transparent 1px),
-    radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.03) 0%, transparent 60%);
-  background-size: 40px 40px, 40px 40px, 100% 100%;
-  pointer-events: none;
-  z-index: 0;
+.dark body {
+  background-color: #030712;
+  color: var(--color-text-secondary);
 }
+
+/* 移除网格背景，使用纯白背景 */
 
 /* 标题样式 */
 h1, .text-h1 {
@@ -170,35 +165,68 @@ p {
   font-size: var(--text-xs);
   font-weight: var(--font-weight-medium);
   border-radius: 9999px;
-  background: rgba(167, 139, 250, 0.15);
-  color: var(--color-secondary-light);
-  border: 1px solid rgba(167, 139, 250, 0.3);
+  background: rgba(147, 51, 234, 0.15);
+  color: #7c3aed;
+  border: 1px solid rgba(147, 51, 234, 0.3);
   transition: all 0.2s ease;
 }
 
+.dark .tag {
+  background: rgba(167, 139, 250, 0.15);
+  color: var(--color-secondary-light);
+  border-color: rgba(167, 139, 250, 0.3);
+}
+
 .tag:hover {
+  background: rgba(147, 51, 234, 0.25);
+  border-color: rgba(147, 51, 234, 0.5);
+}
+
+.dark .tag:hover {
   background: rgba(167, 139, 250, 0.25);
   border-color: rgba(167, 139, 250, 0.5);
 }
 
 .tag-primary {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.dark .tag-primary {
   background: rgba(52, 211, 153, 0.15);
   color: var(--color-primary-light);
   border-color: rgba(52, 211, 153, 0.3);
 }
 
 .tag-primary:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.dark .tag-primary:hover {
   background: rgba(52, 211, 153, 0.25);
   border-color: rgba(52, 211, 153, 0.5);
 }
 
 .tag-amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.dark .tag-amber {
   background: rgba(251, 191, 36, 0.15);
   color: var(--color-amber-light);
   border-color: rgba(251, 191, 36, 0.3);
 }
 
 .tag-amber:hover {
+  background: rgba(245, 158, 11, 0.25);
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+.dark .tag-amber:hover {
   background: rgba(251, 191, 36, 0.25);
   border-color: rgba(251, 191, 36, 0.5);
 }
@@ -207,17 +235,37 @@ p {
 .card-title {
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
   line-height: var(--leading-tight);
   margin-bottom: 0.5rem;
+}
+
+.title-gradient {
+  background: linear-gradient(to right, #1e293b, #7c3aed, #334155);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .title-gradient {
+  background: linear-gradient(to right, #ffffff, #5eead4, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .card-description {
   font-size: var(--text-sm);
   line-height: var(--leading-relaxed);
-  color: var(--color-text-muted);
+  color: #6b7280;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+}
+
+.dark .card-description {
+  color: var(--color-text-muted);
+}
+
+.card-description {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -334,7 +382,7 @@ p {
 .markdown-content h2 {
   font-size: var(--text-3xl);
   font-weight: var(--font-weight-bold);
-  background: linear-gradient(135deg, #f8fafc 0%, #a78bfa 50%, #ec4899 100%);
+  background: linear-gradient(to right, #1e293b, #7c3aed, #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -343,10 +391,14 @@ p {
   letter-spacing: -0.01em;
 }
 
+.dark .markdown-content h2 {
+  background: linear-gradient(to right, #ffffff, #a78bfa, #f472b6);
+}
+
 .markdown-content h3 {
   font-size: var(--text-2xl);
   font-weight: var(--font-weight-semibold);
-  background: linear-gradient(135deg, #e2e8f0 0%, #fbbf24 100%);
+  background: linear-gradient(to right, #334155, #059669, #06b6d4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -354,10 +406,14 @@ p {
   margin-bottom: 0.875rem;
 }
 
+.dark .markdown-content h3 {
+  background: linear-gradient(to right, #e2e8f0, #5eead4, #22d3ee);
+}
+
 .markdown-content h4 {
   font-size: var(--text-xl);
   font-weight: var(--font-weight-semibold);
-  background: linear-gradient(135deg, #94a3b8 0%, #22d3ee 100%);
+  background: linear-gradient(to right, #475569, #7c3aed);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -365,20 +421,38 @@ p {
   margin-bottom: 0.75rem;
 }
 
+.dark .markdown-content h4 {
+  background: linear-gradient(to right, #cbd5e1, #c4b5fd);
+}
+
 .markdown-content h5 {
   font-size: var(--text-lg);
   font-weight: var(--font-weight-medium);
-  color: #c4b5fd;
+  background: linear-gradient(to right, #64748b, #059669);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-top: 1.25rem;
   margin-bottom: 0.625rem;
+}
+
+.dark .markdown-content h5 {
+  background: linear-gradient(to right, #94a3b8, #34d399);
 }
 
 .markdown-content h6 {
   font-size: var(--text-base);
   font-weight: var(--font-weight-medium);
-  color: #6ee7b7;
+  background: linear-gradient(to right, #64748b, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
+}
+
+.dark .markdown-content h6 {
+  background: linear-gradient(to right, #94a3b8, #22d3ee);
 }
 
 .markdown-content p {
@@ -524,36 +598,57 @@ p {
   animation: fadeIn 0.2s ease-out forwards;
 }
 
-/* 自定义滚动条样式 */
+/* 自定义滚动条样式 - 亮色模式 */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-surface-light);
+  background: #f1f5f9;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-surface-lighter);
+  background: #cbd5e1;
   border-radius: 4px;
   transition: background 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-subtle);
+  background: #94a3b8;
 }
 
 /* Firefox 滚动条样式 */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-surface-lighter) var(--color-surface-light);
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* 暗色模式滚动条 */
+.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.dark * {
+  scrollbar-color: #334155 #1e293b;
 }
 
 /* 选择文本样式 */
 ::selection {
   background: rgba(52, 211, 153, 0.3);
+  color: #111827;
+}
+
+.dark ::selection {
   color: var(--color-text-primary);
 }
 
@@ -561,4 +656,236 @@ p {
 :focus {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* 亮色模式下的毛玻璃效果 */
+.glass-light {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(229, 231, 235, 0.5);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* 暗色模式下的毛玻璃效果 */
+.dark .glass-light {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(75, 85, 99, 0.5);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 0 20px rgba(52, 211, 153, 0.05);
+}
+
+/* 亮色模式 markdown 内容适配 */
+.markdown-content h1,
+.markdown-content h1 {
+  color: #111827;
+  border-bottom-color: rgba(107, 114, 128, 0.2);
+}
+
+.markdown-content p,
+.markdown-content li {
+  color: #4b5563;
+}
+
+.markdown-content a {
+  color: #10b981;
+}
+
+.markdown-content a:hover {
+  color: #059669;
+}
+
+.markdown-content code {
+  background-color: rgba(107, 114, 128, 0.1);
+}
+
+.markdown-content pre {
+  background-color: #f9fafb;
+  border-color: rgba(107, 114, 128, 0.2);
+}
+
+.markdown-content pre code {
+  color: #374151;
+}
+
+.markdown-content blockquote {
+  border-left-color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+  color: #4b5563;
+}
+
+.markdown-content th {
+  background-color: rgba(107, 114, 128, 0.05);
+  color: #1f2937;
+}
+
+.markdown-content td {
+  color: #4b5563;
+}
+
+.markdown-content th,
+.markdown-content td {
+  border-color: rgba(107, 114, 128, 0.2);
+}
+
+.markdown-content hr {
+  border-top-color: rgba(107, 114, 128, 0.2);
+}
+
+/* 暗色模式 markdown 内容恢复 */
+.dark .markdown-content h1 {
+  background: linear-gradient(135deg, #f8fafc 0%, #34d399 50%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-bottom-color: var(--color-surface-lighter);
+}
+
+.dark .markdown-content h2 {
+  background: linear-gradient(135deg, #f8fafc 0%, #a78bfa 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .markdown-content h3 {
+  background: linear-gradient(135deg, #e2e8f0 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .markdown-content h4 {
+  background: linear-gradient(135deg, #94a3b8 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .markdown-content h5 {
+  background: linear-gradient(to right, #94a3b8, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .markdown-content h6 {
+  background: linear-gradient(to right, #94a3b8, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .markdown-content p,
+.dark .markdown-content li {
+  color: var(--color-text-secondary);
+}
+
+.dark .markdown-content a {
+  color: var(--color-primary);
+}
+
+.dark .markdown-content a:hover {
+  color: var(--color-primary-light);
+}
+
+.dark .markdown-content code {
+  background-color: var(--color-surface-light);
+  color: var(--color-amber);
+}
+
+.dark .markdown-content pre {
+  background-color: var(--color-surface);
+  border-color: var(--color-surface-lighter);
+}
+
+.dark .markdown-content pre code {
+  color: var(--color-text-secondary);
+}
+
+.dark .markdown-content blockquote {
+  border-left-color: var(--color-primary);
+  background: rgba(52, 211, 153, 0.05);
+  color: var(--color-text-muted);
+}
+
+.dark .markdown-content th {
+  background-color: var(--color-surface-light);
+  color: var(--color-text-primary);
+}
+
+.dark .markdown-content td {
+  color: var(--color-text-secondary);
+}
+
+.dark .markdown-content th,
+.dark .markdown-content td {
+  border-color: var(--color-surface-lighter);
+}
+
+.dark .markdown-content hr {
+  border-top-color: var(--color-surface-lighter);
+}
+
+/* 标签亮色模式适配 */
+.tag {
+  background: rgba(167, 139, 250, 0.1);
+  color: #7c3aed;
+  border-color: rgba(167, 139, 250, 0.3);
+}
+
+.tag:hover {
+  background: rgba(167, 139, 250, 0.2);
+}
+
+.tag-primary {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.tag-primary:hover {
+  background: rgba(16, 185, 129, 0.2);
+}
+
+.tag-amber {
+  background: rgba(251, 191, 36, 0.1);
+  color: #d97706;
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.tag-amber:hover {
+  background: rgba(251, 191, 36, 0.2);
+}
+
+/* 标签暗色模式恢复 */
+.dark .tag {
+  background: rgba(167, 139, 250, 0.15);
+  color: var(--color-secondary-light);
+  border-color: rgba(167, 139, 250, 0.3);
+}
+
+.dark .tag:hover {
+  background: rgba(167, 139, 250, 0.25);
+  border-color: rgba(167, 139, 250, 0.5);
+}
+
+.dark .tag-primary {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--color-primary-light);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.dark .tag-primary:hover {
+  background: rgba(52, 211, 153, 0.25);
+  border-color: rgba(52, 211, 153, 0.5);
+}
+
+.dark .tag-amber {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--color-amber-light);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.dark .tag-amber:hover {
+  background: rgba(251, 191, 36, 0.25);
+  border-color: rgba(251, 191, 36, 0.5);
 }

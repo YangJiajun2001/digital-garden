@@ -63,8 +63,8 @@ const BlogFilter = ({ posts }: Props) => {
             onClick={() => setFilter(key)}
             className={`px-4 py-2 rounded-full border transition-all ${
               filter === key
-                ? 'bg-purple-500/30 border-purple-500 text-white'
-                : 'bg-transparent border-white/20 text-gray-400 hover:bg-purple-500/20 hover:border-purple-500/50'
+                ? 'bg-purple-500/30 border-purple-500 text-gray-900 dark:text-white'
+                : 'bg-transparent border-gray-300 dark:border-white/20 text-gray-600 dark:text-gray-400 hover:bg-purple-500/20 hover:border-purple-500/50'
             }`}
           >
             {statusConfig[key].emoji} {statusConfig[key].label}
@@ -90,10 +90,10 @@ const BlogFilter = ({ posts }: Props) => {
                   {formatDate(post.data.pubDate)}
                 </span>
                 <span className="text-xl">{getStatusEmoji(post.data.status)}</span>
-                <h2 className="text-xl md:text-2xl font-bold mt-2 mb-3 group-hover:drop-shadow-[0_0_20px_rgba(52,211,153,0.5)] transition-all duration-300 bg-gradient-to-r from-white via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+                <h2 className="text-xl md:text-2xl font-bold mt-2 mb-3 group-hover:drop-shadow-[0_0_20px_rgba(52,211,153,0.5)] transition-all duration-300 title-gradient">
                   {post.data.title}
                 </h2>
-                <p className="text-gray-400 text-sm line-clamp-2 mb-4">
+                <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-4">
                   {post.data.description}
                 </p>
                 {post.data.tags && post.data.tags.length > 0 && (
@@ -101,7 +101,7 @@ const BlogFilter = ({ posts }: Props) => {
                     {post.data.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full"
+                        className="px-3 py-1 bg-purple-500/20 text-purple-600 dark:text-purple-300 text-xs rounded-full"
                       >
                         {tag}
                       </span>

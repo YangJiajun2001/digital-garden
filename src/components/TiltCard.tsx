@@ -41,18 +41,18 @@ export default function TiltCard({ children, className = '' }: TiltCardProps) {
         transition: transform ? 'transform 0.15s ease-out' : 'transform 0.5s ease-out',
       }}
     >
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-gray-900/90 to-gray-800/60 border border-white/5" />
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white to-gray-50/80 border border-gray-200/80 shadow-sm dark:from-gray-900/95 dark:to-gray-800/70 dark:border-gray-700/50 dark:shadow-lg" />
       <div
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          background: `radial-gradient(circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(52, 211, 153, 0.12) 0%, transparent 50%)`,
+          background: `radial-gradient(circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(52, 211, 153, 0.08) 0%, transparent 50%)`,
           transition: 'background 0.1s ease-out',
         }}
       />
       <div
         className="absolute inset-0 rounded-2xl pointer-events-none opacity-70"
         style={{
-          background: `radial-gradient(circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(255, 255, 255, 0.06) 0%, transparent 35%)`,
+          background: `radial-gradient(circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(0, 0, 0, 0.04) 0%, transparent 35%)`,
           transition: 'background 0.15s ease-out',
         }}
       />

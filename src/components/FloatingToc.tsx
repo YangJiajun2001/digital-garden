@@ -73,8 +73,8 @@ export default function FloatingToc({ headings }: FloatingTocProps) {
       className="fixed right-[calc((100vw-1280px)/2)] top-32 w-[200px] hidden lg:block max-h-[calc(100vh-160px)] overflow-y-auto"
       aria-label="Table of contents"
     >
-      <div className="bg-black/40 backdrop-blur-md border border-white/5 rounded-lg p-4">
-        <h2 className="text-sm font-semibold text-gray-300 mb-3">目录</h2>
+      <div className="bg-gray-100/90 dark:bg-black/40 backdrop-blur-md border border-gray-300 dark:border-white/5 rounded-lg p-4">
+        <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-3">目录</h2>
         <ul className="space-y-2">
           {headings.map((heading) => (
             <li key={heading.slug}>
@@ -84,15 +84,15 @@ export default function FloatingToc({ headings }: FloatingTocProps) {
                   w-full text-left text-sm py-1 px-2 rounded transition-all duration-200
                   ${heading.depth === 3 ? 'pl-5' : ''}
                   ${activeId === heading.slug
-                    ? 'text-white font-medium'
-                    : 'text-gray-500 hover:text-gray-300'
+                    ? 'text-gray-900 dark:text-white font-medium'
+                    : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                   }
                 `}
               >
                 <span
                   className={`
                     inline-block w-0.5 h-4 mr-2 align-middle transition-colors duration-200
-                    ${activeId === heading.slug ? 'bg-emerald-400' : 'bg-transparent'}
+                    ${activeId === heading.slug ? 'bg-emerald-500' : 'bg-transparent'}
                   `}
                 />
                 {heading.text}

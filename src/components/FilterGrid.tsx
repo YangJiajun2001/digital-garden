@@ -103,15 +103,15 @@ const FilterGrid = ({ items }: Props) => {
             onClick={() => setActiveTag(key)}
             className={`px-4 py-2 rounded-full border transition-all duration-300 ${
               activeTag === key
-                ? 'bg-purple-600/30 border-purple-500 text-purple-200 scale-105 shadow-lg shadow-purple-500/20'
-                : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:bg-purple-600/20 hover:border-purple-500/50 hover:text-purple-300 hover:scale-105'
+                ? 'bg-purple-600/30 border-purple-500 text-purple-200 scale-105 shadow-lg shadow-purple-500/20 dark:shadow-purple-500/20'
+                : 'bg-gray-200/50 border-gray-300 text-gray-600 hover:bg-purple-600/20 hover:border-purple-500/50 hover:text-purple-600 hover:scale-105 dark:bg-gray-800/50 dark:border-gray-700 dark:text-gray-400 dark:hover:text-purple-300'
             }`}
           >
             <span className="font-medium text-sm tracking-wide">{statusConfig[key].label}</span>
           </button>
         ))}
         
-        <div className="w-full h-px bg-gray-800 my-3" />
+        <div className="w-full h-px bg-gray-300 dark:bg-gray-800 my-3" />
         
         {allTags.map(({ tag, count }) => (
           <button
@@ -119,8 +119,8 @@ const FilterGrid = ({ items }: Props) => {
             onClick={() => setActiveTag(tag)}
             className={`px-4 py-2 rounded-full border transition-all duration-300 ${
               activeTag === tag
-                ? 'bg-emerald-600/30 border-emerald-500 text-emerald-200 scale-105 shadow-lg shadow-emerald-500/20'
-                : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:bg-emerald-600/20 hover:border-emerald-500/50 hover:text-emerald-300 hover:scale-105'
+                ? 'bg-emerald-600/30 border-emerald-500 text-emerald-200 scale-105 shadow-lg shadow-emerald-500/20 dark:shadow-emerald-500/20'
+                : 'bg-gray-200/50 border-gray-300 text-gray-600 hover:bg-emerald-600/20 hover:border-emerald-500/50 hover:text-emerald-600 hover:scale-105 dark:bg-gray-800/50 dark:border-gray-700 dark:text-gray-400 dark:hover:text-emerald-300'
             }`}
           >
             <span className="font-medium text-sm tracking-wide">#{tag} ({count})</span>
@@ -146,15 +146,15 @@ const FilterGrid = ({ items }: Props) => {
                     <span className="text-xl mt-0.5">💡</span>
                     <div className="flex-1">
                       {item.data.title && (
-                        <h3 className="text-lg font-semibold mb-2 tracking-tight bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
+                        <h3 className="text-lg font-semibold mb-2 tracking-tight bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent dark:from-white dark:to-amber-200">
                           {item.data.title}
                         </h3>
                       )}
-                      <p className="text-gray-400 text-sm leading-relaxed line-clamp-3 mb-4">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3 mb-4">
                         {item.data.content}
                       </p>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-500 font-medium tracking-wider uppercase">
+                        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium tracking-wider uppercase">
                           {formatDate(item.data.pubDate)}
                         </span>
                         {item.data.tags.length > 0 && (
@@ -185,10 +185,12 @@ const FilterGrid = ({ items }: Props) => {
                         {formatDate(item.data.pubDate)}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold mb-2 group-hover:drop-shadow-[0_0_20px_rgba(52,211,153,0.5)] transition-all duration-300 bg-gradient-to-r from-white via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+                    <h3 
+                      className="text-xl font-bold mb-2 group-hover:drop-shadow-[0_0_20px_rgba(52,211,153,0.5)] transition-all duration-300 title-gradient"
+                    >
                       {item.data.title}
                     </h3>
-                    <p className="card-description text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">
+                    <p className="card-description text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">
                       {item.data.description}
                     </p>
                     {item.data.tags.length > 0 && (
