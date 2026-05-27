@@ -63,6 +63,9 @@ export default function ThemeToggle() {
     
     // 保存到 localStorage
     localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+    
+    // 派发主题变更事件，通知其他组件
+    document.dispatchEvent(new Event('themechange'));
   };
 
   // 当 isDark 为 null 时，显示加载状态

@@ -696,32 +696,105 @@ p {
   color: #059669;
 }
 
-/* 亮色模式代码块样式 */
-:root:not(.dark) .markdown-content code {
+/* 行内代码样式 */
+.markdown-content code:not(pre code) {
   background-color: rgba(107, 114, 128, 0.15);
   color: #c53030;
 }
 
-:root:not(.dark) .markdown-content pre,
-:root:not(.dark) .markdown-content pre.astro-code {
-  background-color: #f8fafc !important;
-  border-color: rgba(107, 114, 128, 0.2) !important;
+.dark .markdown-content code:not(pre code) {
+  background-color: var(--color-surface-light);
+  color: var(--color-amber);
 }
 
-:root:not(.dark) .markdown-content pre code,
-:root:not(.dark) .markdown-content pre.astro-code code {
-  color: #374151 !important;
+/* 代码块基础样式 */
+.markdown-content pre {
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  border: 1px solid;
 }
 
-/* 亮色模式复制按钮 */
-:root:not(.dark) .copy-code-btn {
-  background-color: rgba(107, 114, 128, 0.5);
-  color: #4b5563;
+/* 暗色模式代码块 */
+.dark .markdown-content pre {
+  background-color: #1e1e1e !important;
+  border-color: #3c3c3c !important;
 }
 
-:root:not(.dark) .copy-code-btn:hover {
-  background-color: rgba(107, 114, 128, 0.8);
+/* 亮色模式代码块 */
+:root:not(.dark) .markdown-content pre {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+
+/* 暗色模式代码高亮 */
+.dark .markdown-content pre code .token-keyword {
+  color: #ff79c6;
+}
+.dark .markdown-content pre code .token-string {
+  color: #f1fa8c;
+}
+.dark .markdown-content pre code .token-comment {
+  color: #6272a4;
+  font-style: italic;
+}
+.dark .markdown-content pre code .token-function {
+  color: #50fa7b;
+}
+.dark .markdown-content pre code .token-variable {
+  color: #bd93f9;
+}
+.dark .markdown-content pre code .token-number {
+  color: #bd93f9;
+}
+.dark .markdown-content pre code .token-operator {
+  color: #ffb86c;
+}
+.dark .markdown-content pre code .token-punctuation {
+  color: #ff79c6;
+}
+.dark .markdown-content pre code .token-parameter {
+  color: #ffb86c;
+}
+
+/* 亮色模式代码高亮 - GitHub Light 风格 */
+:root:not(.dark) .markdown-content pre code .token-keyword {
+  color: #cf222e;
+}
+:root:not(.dark) .markdown-content pre code .token-string {
+  color: #05a36a;
+}
+:root:not(.dark) .markdown-content pre code .token-comment {
+  color: #656d76;
+  font-style: italic;
+}
+:root:not(.dark) .markdown-content pre code .token-function {
+  color: #8250df;
+}
+:root:not(.dark) .markdown-content pre code .token-variable {
   color: #1f2937;
+}
+:root:not(.dark) .markdown-content pre code .token-number {
+  color: #005cc5;
+}
+:root:not(.dark) .markdown-content pre code .token-operator {
+  color: #d97706;
+}
+:root:not(.dark) .markdown-content pre code .token-punctuation {
+  color: #374151;
+}
+:root:not(.dark) .markdown-content pre code .token-parameter {
+  color: #005cc5;
+}
+:root:not(.dark) .markdown-content pre code .token-property {
+  color: #05a36a;
+}
+:root:not(.dark) .markdown-content pre code .token-class-name {
+  color: #8250df;
+}
+:root:not(.dark) .markdown-content pre code .token-type {
+  color: #8250df;
 }
 
 .markdown-content blockquote {
@@ -913,6 +986,47 @@ p {
 .dark .copy-code-btn:hover {
   background-color: rgba(0, 0, 0, 0.8);
   color: #f3f4f6;
+}
+
+/* 行号样式 */
+.markdown-content pre.has-line-numbers {
+  display: flex;
+  padding-left: 0;
+  overflow: hidden;
+}
+
+.markdown-content pre.has-line-numbers > code {
+  flex: 1;
+  overflow-x: auto;
+  padding-left: 1rem;
+}
+
+.line-numbers {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0.75rem;
+  padding-right: 0.5rem;
+  border-right: 1px solid var(--color-surface-lighter);
+  background-color: rgba(0, 0, 0, 0.1);
+  user-select: none;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  min-width: 2.5rem;
+  flex-shrink: 0;
+}
+
+.line-number {
+  flex-shrink: 0;
+}
+
+/* 亮色模式行号样式 */
+:root:not(.dark) .line-numbers {
+  border-right-color: #e5e7eb;
+  background-color: rgba(107, 114, 128, 0.05);
+  color: #9ca3af;
 }
 
 /* 标签暗色模式恢复 */

@@ -138,6 +138,61 @@ import { BASE_PATH } from '../utils/base';
     <SearchModal client:load />
     
     <!-- 代码复制功能脚本 -->
-    <script src="../scripts/copy-code.js"></script>
+    <script>
+      function addLineNumbers(pre, codeElement) {
+        const lines = codeElement.textContent.split('\n');
+        const lineCount = lines.length;
+        
+        const lineNumbers = document.createElement('span');
+        lineNumbers.className = 'line-numbers';
+        
+        let lineNumbersHTML = '';
+        for (let i = 1; i <= lineCount; i++) {
+          lineNumbersHTML += '<span class="line-number">' + i + '</span>\n';
+        }
+        lineNumbers.innerHTML = lineNumbersHTML.trim();
+        
+        pre.insertBefore(lineNumbers, codeElement);
+        pre.classList.add('has-line-numbers');
+      }
+
+      function initCodeBlocks() {
+        document.querySelectorAll('pre.astro-code').forEach((pre) => {
+          if (pre.querySelector('.copy-code-btn') || pre.dataset.processed === 'true') {
+            return;
+          }
+          pre.dataset.processed = 'true';
+          
+          const codeElement = pre.querySelector('code');
+          if (!codeElement) return;
+          
+          // 创建复制按钮
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'copy-code-btn';
+          copyBtn.innerHTML = '📋';
+          copyBtn.title = '复制代码';
+          
+          copyBtn.addEventListener('click', async () => {
+            try {
+              const codeText = codeElement.textContent || codeElement.innerText;
+              await navigator.clipboard.writeText(codeText);
+              copyBtn.innerHTML = '✔️';
+              setTimeout(() => {
+                copyBtn.innerHTML = '📋';
+              }, 2000);
+            } catch (err) {
+              console.error('复制失败:', err);
+            }
+          });
+          
+          pre.appendChild(copyBtn);
+          addLineNumbers(pre, codeElement);
+        });
+      }
+
+      // 页面加载后初始化
+      document.addEventListener('DOMContentLoaded', initCodeBlocks);
+      document.addEventListener('astro:page-load', initCodeBlocks);
+    </script>
   </body>
 </html>
