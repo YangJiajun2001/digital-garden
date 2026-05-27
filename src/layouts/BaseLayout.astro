@@ -22,6 +22,7 @@ import { BASE_PATH } from '../utils/base';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="思维花园 - 播种想法，培育认知" />
     <title>{title}</title>
+    <link rel="alternate" type="application/rss+xml" title="My Digital Garden" href={`${BASE_PATH}/rss.xml`} />
     <script>
       // 在任何内容加载前立即设置主题，防止闪烁
       (function() {
@@ -35,10 +36,8 @@ import { BASE_PATH } from '../utils/base';
             html.classList.remove('dark');
           }
         } else {
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (prefersDark) {
-            html.classList.add('dark');
-          }
+          // 默认设置为暗色模式
+          html.classList.add('dark');
         }
       })();
     </script>
