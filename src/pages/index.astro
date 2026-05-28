@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FilterGrid from '../components/FilterGrid';
 import ScrollReveal from '../components/ScrollReveal';
 import Heatmap from '../components/Heatmap';
+import TypewriterHero from '../components/TypewriterHero';
 import { getCollection } from 'astro:content';
 import { GARDEN_PATH } from '../utils/base';
 
@@ -44,42 +45,42 @@ const heatmapItems = [
     content: note.data.content,
   })),
 ];
+
+// 计算站点数据统计
+const stats = {
+  articles: posts.length,
+  notes: notes.length,
+  totalWords: posts.reduce((acc, post) => acc + post.body.length, 0) + notes.reduce((acc, note) => acc + note.data.content.length, 0),
+  tags: [...new Set([...posts.flatMap(p => p.data.tags || []), ...notes.flatMap(n => n.data.tags || [])])].length,
+  evergreen: posts.filter(p => p.data.status === 'evergreen').length,
+};
 ---
 
 <BaseLayout title="思维花园 - 播种想法，培育认知">
   <main class="min-h-screen bg-white dark:bg-gray-950 relative z-10">
-    <section class="container mx-auto px-4 py-16 text-center">
-      <ScrollReveal client:load>
-        <div class="flex justify-center gap-4 mb-8">
-          <a
-            href={GARDEN_PATH}
-            class="group px-6 py-2.5 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 hover:text-purple-200 rounded-lg transition-all duration-300 border border-purple-600/30 hover:border-purple-500/50 backdrop-blur-sm"
-          >
-            <span class="flex items-center gap-2.5 btn-text">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 013.001-3.001h1.987a.75.75 0 01.75.75v11.998a3.001 3.001 0 01-3.001 3.001H3.36m11.14 0a3.001 3.001 0 003.001-3.001V15a.75.75 0 00-.75-.75h-2.25" />
-              </svg>
-              知识图谱
-            </span>
-          </a>
-        </div>
-      </ScrollReveal>
+    <TypewriterHero client:load />
 
-      <ScrollReveal client:load>
-        <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 font-sans tracking-tight flex flex-col md:flex-row items-center justify-center gap-4 group cursor-pointer">
-          <span class="text-6xl md:text-7xl lg:text-8xl transition-transform duration-300 group-hover:scale-110">🌿</span>
-          <span class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent group-hover:from-emerald-400 group-hover:via-teal-400 group-hover:to-cyan-400 dark:group-hover:from-emerald-300 dark:group-hover:via-teal-300 dark:group-hover:to-cyan-300 transition-all duration-300 dark:group-hover:drop-shadow-[0_0_30px_rgba(52,211,153,0.5)]">思维花园</span>
-        </h1>
-      </ScrollReveal>
-
-      <ScrollReveal client:load delay={200}>
-        <p class="text-xl md:text-2xl lg:text-3xl text-gray-600 dark:text-gray-400 font-light tracking-wide mt-2">
-          播种想法，培育认知
-        </p>
-        <p class="text-base md:text-lg text-gray-500 dark:text-gray-500 mt-4 max-w-2xl mx-auto font-normal">
-          在这片数字花园中，记录思考的点滴，让知识自然生长
-        </p>
-      </ScrollReveal>
+    <section class="container mx-auto px-4 py-8">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+        {[
+          { icon: '📝', value: stats.articles, label: '文章总数' },
+          { icon: '💡', value: stats.notes, label: '闪念胶囊数' },
+          { icon: '📊', value: stats.totalWords.toLocaleString(), label: '总字数' },
+          { icon: '🏷️', value: stats.tags, label: '标签总数' },
+          { icon: '🌳', value: stats.evergreen, label: '常青文章' },
+        ].map((stat, index) => (
+          <ScrollReveal key={index} client:load delay={index * 100}>
+            <div class="group relative p-4 rounded-2xl bg-white/50 dark:bg-gray-900/50 backdrop-blur-md border border-gray-200 dark:border-gray-800 hover:border-emerald-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10">
+              <div class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-1">
+                {stat.icon} {stat.value}
+              </div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">
+                {stat.label}
+              </div>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
     </section>
 
     <section class="container mx-auto px-4 py-8">
