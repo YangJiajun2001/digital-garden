@@ -19,6 +19,40 @@ export async function getStaticPaths() {
 
 const { post, backlinks } = Astro.props;
 const { Content, headings } = await post.render();
+
+// 计算阅读时长
+function calculateReadingTime(text: string): number {
+  // 去除 markdown 语法，提取纯文本
+  const plainText = text
+    .replace(/[#*`~>]/g, '')           // 移除 markdown 语法符号
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')  // 移除链接，保留链接文本
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '')    // 移除图片
+    .replace(/```[\s\S]*?```/g, '')    // 移除代码块
+    .replace(/---/g, '')               // 移除分隔线
+    .replace(/\n\s*\n/g, '\n')         // 移除多余空行
+    .trim();
+
+  // 统计中文字符数和英文字符数
+  let chineseChars = 0;
+  let englishChars = 0;
+  
+  for (const char of plainText) {
+    if (/[\u4e00-\u9fa5]/.test(char)) {
+      chineseChars++;
+    } else if (/[a-zA-Z]/.test(char)) {
+      englishChars++;
+    }
+  }
+
+  // 计算公式：中文/300 + 英文/200，向上取整
+  const chineseMinutes = Math.ceil(chineseChars / 300);
+  const englishMinutes = Math.ceil(englishChars / 200);
+  
+  // 返回总时长，至少1分钟
+  return Math.max(1, chineseMinutes + englishMinutes);
+}
+
+const readingTime = calculateReadingTime(post.body);
 ---
 
 <BaseLayout title={post.data.title}>
@@ -43,6 +77,9 @@ const { Content, headings } = await post.render();
             </span>
             <span class="text-gray-500 dark:text-gray-400">
               {new Date(post.data.pubDate).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
+            <span class="text-gray-500 dark:text-gray-400 flex items-center gap-1">
+              🕒 预计阅读 {readingTime} 分钟
             </span>
           </div>
           {post.data.tags && post.data.tags.length > 0 && (
