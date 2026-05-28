@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagCloud3D from '../../components/TagCloud3D';
+import { getCollection } from 'astro:content';
+
+const blogPosts = await getCollection('blog');
+const notesPosts = await getCollection('notes');
+
+const tagCountMap: Record<string, number> = {};
+
+blogPosts.forEach(post => {
+  if (post.data.tags) {
+    post.data.tags.forEach(tag => {
+      tagCountMap[tag] = (tagCountMap[tag] || 0) + 1;
+    });
+  }
+});
+
+notesPosts.forEach(post => {
+  if (post.data.tags) {
+    post.data.tags.forEach(tag => {
+      tagCountMap[tag] = (tagCountMap[tag] || 0) + 1;
+    });
+  }
+});
+
+const tags = Object.entries(tagCountMap)
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count);
+
+const totalArticles = tags.reduce((sum, t) => sum + t.count, 0);
+---
+
+<BaseLayout title="思维花园 - 标签星图">
+  <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 pt-16">
+    <!-- 顶部装饰背景 -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-4 py-12 max-w-5xl relative">
+      <!-- 页面标题 -->
+      <header class="text-center mb-12">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-2xl shadow-lg shadow-emerald-500/25 mb-6">
+          <span class="text-3xl">🏷️</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          <span class="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+            标签星图
+          </span>
+        </h1>
+        <p class="text-gray-500 dark:text-gray-400 text-lg">
+          探索 {tags.length} 个标签，共 {totalArticles} 篇文章
+        </p>
+        <p class="text-gray-400 dark:text-gray-500 text-sm mt-2">
+          鼠标移动到球体上可交互旋转，点击标签查看相关文章
+        </p>
+      </header>
+
+      <!-- 3D标签云区域 -->
+      <section class="relative bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-200/50 dark:border-gray-800/50 p-6 mb-12 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-cyan-50/50 dark:from-emerald-900/10 dark:to-cyan-900/10"></div>
+        <div class="relative">
+          <TagCloud3D tags={tags} client:load />
+        </div>
+      </section>
+
+      <!-- 标签列表区域 -->
+      <section>
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">标签索引</h2>
+          <span class="text-sm text-gray-400">{tags.length} 个标签</span>
+        </div>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          {tags.map(tag => (
+            <a
+              key={tag.name}
+              href={`/tags/${encodeURIComponent(tag.name)}`}
+              class="group flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-900 rounded-xl border border-gray-200/50 dark:border-gray-800/50 hover:border-emerald-400/50 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300"
+            >
+              <span class="font-medium text-gray-700 dark:text-gray-300 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors">
+                {tag.name}
+              </span>
+              <span class="flex items-center justify-center w-6 h-6 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                {tag.count}
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

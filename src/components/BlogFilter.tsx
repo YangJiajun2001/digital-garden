@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
-import TiltCard from './TiltCard';
-import { BLOG_PATH } from '../utils/base';
+import ContentCard from './ContentCard';
 
 interface Post {
   slug: string;
@@ -11,6 +10,7 @@ interface Post {
     status: 'seed' | 'growing' | 'evergreen';
     tags: string[];
   };
+  collection?: string;
 }
 
 interface Props {
@@ -37,23 +37,6 @@ const BlogFilter = ({ posts }: Props) => {
     return sorted.filter((post) => post.data.status === filter);
   }, [posts, filter]);
 
-  const getStatusEmoji = (status: string) => {
-    const emojis: Record<string, string> = {
-      seed: '🌱',
-      growing: '🌿',
-      evergreen: '🌳',
-    };
-    return emojis[status] || '🌱';
-  };
-
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
-
   return (
     <div>
       <div className="flex gap-3 mb-8 flex-wrap">
@@ -72,44 +55,14 @@ const BlogFilter = ({ posts }: Props) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="space-y-4">
         {filteredPosts.map((post, index) => {
-          const isFirst = index === 0;
-          const isTall = index === 2;
-
           return (
-            <TiltCard
+            <ContentCard
               key={post.slug}
-              className={`${isFirst ? 'lg:col-span-2' : ''} ${isTall ? 'md:row-span-2' : ''}`}
-            >
-              <a
-                href={`${BLOG_PATH}/${post.slug}`}
-                className="block h-full group"
-              >
-                <span className="text-xs text-gray-500 float-right">
-                  {formatDate(post.data.pubDate)}
-                </span>
-                <span className="text-xl">{getStatusEmoji(post.data.status)}</span>
-                <h2 className="text-xl md:text-2xl font-bold mt-2 mb-3 group-hover:drop-shadow-[0_0_20px_rgba(52,211,153,0.5)] transition-all duration-300 title-gradient">
-                  {post.data.title}
-                </h2>
-                <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-4">
-                  {post.data.description}
-                </p>
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {post.data.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-purple-500/20 text-purple-600 dark:text-purple-300 text-xs rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </a>
-            </TiltCard>
+              post={post}
+              className=""
+            />
           );
         })}
       </div>

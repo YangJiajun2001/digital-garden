@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const phrases = [
-  '🌱 一名数字园丁',
-  '💻 正在培育思想的种子',
-  '📚 用代码编织知识网络',
+  { emoji: '🌱', text: '一名数字园丁' },
+  { emoji: '💻', text: '正在培育思想的种子' },
+  { emoji: '📚', text: '用代码编织知识网络' },
 ];
 
 const TYPING_SPEED = 80;    // 打字速度（毫秒）
@@ -26,7 +26,7 @@ export default function TypewriterHero() {
 
   useEffect(() => {
     const currentPhrase = phrases[currentPhraseIndex];
-    const fullLength = currentPhrase.length;
+    const fullLength = currentPhrase.text.length;
     const currentLength = displayText.length;
 
     let timeout: ReturnType<typeof setTimeout>;
@@ -35,7 +35,7 @@ export default function TypewriterHero() {
       // 打字阶段
       if (currentLength < fullLength) {
         timeout = setTimeout(() => {
-          setDisplayText(currentPhrase.slice(0, currentLength + 1));
+          setDisplayText(currentPhrase.text.slice(0, currentLength + 1));
         }, TYPING_SPEED);
       } else {
         // 打完后停顿
@@ -47,7 +47,7 @@ export default function TypewriterHero() {
       // 删除阶段
       if (currentLength > 0) {
         timeout = setTimeout(() => {
-          setDisplayText(currentPhrase.slice(0, currentLength - 1));
+          setDisplayText(currentPhrase.text.slice(0, currentLength - 1));
         }, DELETING_SPEED);
       } else {
         // 切换到下一个短语
@@ -81,6 +81,9 @@ export default function TypewriterHero() {
       </h1>
 
       <div className="text-2xl md:text-3xl text-gray-600 dark:text-gray-400 font-light tracking-wide mt-2 min-h-[2.5rem]">
+        {/* emoji 保持原始颜色 */}
+        <span>{phrases[currentPhraseIndex].emoji}</span>
+        {/* 文字应用渐变效果 */}
         <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
           {displayText}
         </span>
