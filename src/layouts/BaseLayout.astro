@@ -149,6 +149,185 @@ import { BASE_PATH } from '../utils/base';
     
     <!-- 代码复制功能脚本 -->
     <script>
+      // 语言名称映射表
+      const languageNames = {
+        'javascript': 'JavaScript',
+        'typescript': 'TypeScript',
+        'python': 'Python',
+        'java': 'Java',
+        'cpp': 'C++',
+        'c': 'C',
+        'csharp': 'C#',
+        'go': 'Go',
+        'rust': 'Rust',
+        'ruby': 'Ruby',
+        'php': 'PHP',
+        'swift': 'Swift',
+        'kotlin': 'Kotlin',
+        'dart': 'Dart',
+        'scala': 'Scala',
+        'bash': 'Bash',
+        'shell': 'Shell',
+        'cmd': 'Command',
+        'batch': 'Batch',
+        'powershell': 'PowerShell',
+        'sql': 'SQL',
+        'html': 'HTML',
+        'css': 'CSS',
+        'json': 'JSON',
+        'yaml': 'YAML',
+        'xml': 'XML',
+        'markdown': 'Markdown',
+        'text': 'Text',
+        'diff': 'Diff',
+        'git': 'Git',
+        'dockerfile': 'Dockerfile',
+        'makefile': 'Makefile',
+        'toml': 'TOML',
+        'ini': 'INI',
+        'properties': 'Properties'
+      };
+
+      // 获取语言显示名称
+      function getLanguageName(codeElement, preElement) {
+        // 从 code 元素的 class 中查找 (Shiki 使用这种方式)
+        const codeClassList = codeElement.classList;
+        for (const className of codeClassList) {
+          if (className.startsWith('language-')) {
+            const lang = className.replace('language-', '').toLowerCase();
+            return languageNames[lang] || lang.charAt(0).toUpperCase() + lang.slice(1);
+          }
+          // 检查是否是直接的语言名称 class
+          if (languageNames[className.toLowerCase()]) {
+            return languageNames[className.toLowerCase()];
+          }
+        }
+        
+        // 从 pre 元素的 class 中查找
+        const preClassList = preElement.classList;
+        for (const className of preClassList) {
+          if (className.startsWith('language-')) {
+            const lang = className.replace('language-', '').toLowerCase();
+            return languageNames[lang] || lang.charAt(0).toUpperCase() + lang.slice(1);
+          }
+          // 检查 shiki 主题类名，尝试提取语言信息
+          if (className.startsWith('shiki-')) {
+            // 查看 code 元素的第一个子元素是否有语言信息
+            const firstChild = codeElement.firstChild;
+            if (firstChild && firstChild.textContent) {
+              const text = firstChild.textContent;
+              return inferLanguageFromCode(text);
+            }
+          }
+          if (languageNames[className.toLowerCase()]) {
+            return languageNames[className.toLowerCase()];
+          }
+        }
+        
+        // 从 data 属性中查找
+        const dataLang = preElement.dataset.language || preElement.dataset.lang || preElement.dataset.syntax;
+        if (dataLang) {
+          const lang = dataLang.toLowerCase();
+          return languageNames[lang] || lang.charAt(0).toUpperCase() + lang.slice(1);
+        }
+        
+        // 从代码内容推断语言
+        const codeText = codeElement.textContent || '';
+        return inferLanguageFromCode(codeText);
+      }
+
+      // 从代码内容推断语言
+      function inferLanguageFromCode(code) {
+        // 移除首尾空白
+        const trimmedCode = code.trim();
+        
+        // Windows CMD 命令检测
+        if (trimmedCode.startsWith('tree /') || trimmedCode.startsWith('cd ') || 
+            trimmedCode.includes('> tree.txt') || trimmedCode.startsWith('dir ') ||
+            trimmedCode.startsWith('copy ') || trimmedCode.startsWith('del ') ||
+            trimmedCode.startsWith('ren ') || trimmedCode.startsWith('mkdir ')) {
+          return 'Command';
+        }
+        
+        // Bash/Shell 命令检测
+        if (trimmedCode.startsWith('npm ') || trimmedCode.startsWith('yarn ') || 
+            trimmedCode.startsWith('tree ') || trimmedCode.startsWith('brew ') || 
+            trimmedCode.startsWith('apt ') || trimmedCode.startsWith('sudo ') ||
+            trimmedCode.startsWith('git ') || trimmedCode.startsWith('curl ') ||
+            trimmedCode.startsWith('wget ') || trimmedCode.startsWith('chmod ') ||
+            trimmedCode.startsWith('chown ') || trimmedCode.startsWith('export ') ||
+            trimmedCode.startsWith('echo ') || trimmedCode.startsWith('$ ') ||
+            trimmedCode.includes('|') || trimmedCode.includes('&&') || trimmedCode.includes('||')) {
+          return 'Bash';
+        }
+        
+        // JavaScript/TypeScript 检测
+        if (trimmedCode.includes('function') && (trimmedCode.includes('const') || 
+            trimmedCode.includes('let') || trimmedCode.includes('=>'))) {
+          return trimmedCode.includes('interface') || trimmedCode.includes('type ') || 
+                 trimmedCode.includes(': string') || trimmedCode.includes(': number') ? 'TypeScript' : 'JavaScript';
+        }
+        
+        // CSS 检测
+        if ((trimmedCode.includes('@keyframes') || trimmedCode.includes('@media') || 
+             trimmedCode.includes(': ') || trimmedCode.includes('rem') || trimmedCode.includes('px')) && 
+            trimmedCode.includes('{') && trimmedCode.includes('}')) {
+          return 'CSS';
+        }
+        
+        // HTML 检测
+        if (trimmedCode.startsWith('<') && trimmedCode.includes('>')) {
+          return 'HTML';
+        }
+        
+        // JSON 检测
+        if (trimmedCode.startsWith('{') && trimmedCode.includes('"')) {
+          try {
+            JSON.parse(trimmedCode);
+            return 'JSON';
+          } catch (e) {
+            // 不是有效的 JSON，但可能是 JavaScript 对象字面量
+            if (trimmedCode.includes(':') && trimmedCode.includes(',')) {
+              return 'JavaScript';
+            }
+          }
+        }
+        
+        // Python 检测
+        if (trimmedCode.includes('def ') || trimmedCode.includes('import ') || 
+            trimmedCode.includes('print(') || trimmedCode.includes('if ') && trimmedCode.includes(':')) {
+          return 'Python';
+        }
+        
+        // SQL 检测
+        const upperCode = trimmedCode.toUpperCase();
+        if (upperCode.includes('SELECT') || upperCode.includes('FROM') || 
+            upperCode.includes('WHERE') || upperCode.includes('INSERT') ||
+            upperCode.includes('UPDATE') || upperCode.includes('DELETE')) {
+          return 'SQL';
+        }
+        
+        // Java 检测
+        if (trimmedCode.includes('class ') && trimmedCode.includes('extends') && 
+            trimmedCode.includes('public ') && trimmedCode.includes('{')) {
+          return 'Java';
+        }
+        
+        // XML/YAML/TOML 配置文件检测
+        if (trimmedCode.startsWith('<') && trimmedCode.includes('</')) {
+          return 'XML';
+        }
+        if (trimmedCode.includes(':') && trimmedCode.includes('- ') && !trimmedCode.includes('{')) {
+          return 'YAML';
+        }
+        if (trimmedCode.includes('=') && !trimmedCode.includes('{') && !trimmedCode.includes('function')) {
+          return 'TOML';
+        }
+        
+        // 无法识别时返回 null
+        return null;
+      }
+
       function addLineNumbers(pre, codeElement) {
         const lines = codeElement.textContent.split('\n');
         const lineCount = lines.length;
@@ -167,20 +346,86 @@ import { BASE_PATH } from '../utils/base';
       }
 
       function initCodeBlocks() {
-        document.querySelectorAll('pre.astro-code').forEach((pre) => {
+        // 选择所有 pre 元素
+        const pres = document.querySelectorAll('pre');
+        console.log('Found pre elements:', pres.length);
+        
+        pres.forEach((pre) => {
           if (pre.querySelector('.copy-code-btn') || pre.dataset.processed === 'true') {
             return;
           }
           pre.dataset.processed = 'true';
           
           const codeElement = pre.querySelector('code');
-          if (!codeElement) return;
+          if (!codeElement) {
+            console.log('No code element found');
+            return;
+          }
+          
+          // 调试信息
+          console.log('pre className:', pre.className);
+          console.log('code className:', codeElement.className);
+          console.log('pre dataset:', pre.dataset);
+          console.log('code text (first 50 chars):', codeElement.textContent?.substring(0, 50));
+          
+          // 获取语言名称
+          const languageName = getLanguageName(codeElement, pre);
+          console.log('Detected language:', languageName);
+          
+          // 创建语言标签
+          if (languageName) {
+            const langLabel = document.createElement('span');
+            langLabel.className = 'code-lang-label';
+            langLabel.textContent = languageName;
+            langLabel.style.cssText = `
+              position: absolute;
+              top: 0;
+              left: 0;
+              padding: 6px 12px;
+              background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(34, 211, 238, 0.2) 100%);
+              color: #34d399;
+              font-family: 'Fira Code', monospace;
+              font-size: 12px;
+              font-weight: 600;
+              border-radius: 8px 0 6px 0;
+              letter-spacing: 0.05em;
+              text-transform: uppercase;
+              border-bottom: 1px solid rgba(52, 211, 153, 0.3);
+              border-right: 1px solid rgba(52, 211, 153, 0.3);
+            `;
+            pre.style.position = 'relative';
+            pre.style.paddingTop = '40px';
+            pre.appendChild(langLabel);
+          }
           
           // 创建复制按钮
           const copyBtn = document.createElement('button');
           copyBtn.className = 'copy-code-btn';
           copyBtn.innerHTML = '📋';
           copyBtn.title = '复制代码';
+          copyBtn.style.cssText = `
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            padding: 6px 8px;
+            background: rgba(55, 65, 81, 0.5);
+            color: #9ca3af;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+          `;
+          
+          pre.addEventListener('mouseenter', () => {
+            copyBtn.style.opacity = '1';
+          });
+          
+          pre.addEventListener('mouseleave', () => {
+            copyBtn.style.opacity = '0';
+          });
           
           copyBtn.addEventListener('click', async () => {
             try {
